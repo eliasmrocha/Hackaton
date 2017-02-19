@@ -1,0 +1,62 @@
+ConnectShop: 000016C8: 02:01:01 []:Web Server Started.
+ConnectShop: 000006C8: 02:01:19 [127.0.0.1]:EIdHTTPProtocolException : HTTP/1.1 500 Internal Server Error : Addr: $007E7C6E
+ConnectShop: 00002830: 02:02:13 []:Web Server Started.
+ConnectShop: 00001CFC: 02:02:59 [127.0.0.1]:EIdHTTPProtocolException : HTTP/1.1 500 Internal Server Error : Addr: $007E7C6E
+ConnectShop: 0000282C: 02:04:17 []:Web Server Started.
+ConnectShop: 000022E0: 02:05:06 []:Web Server Started.
+ConnectShop: 000022E8: 02:19:44 []:Web Server Started.
+ConnectShop: 000005D0: 02:19:44 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 00000ADC: 02:19:58 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00001F10: 02:20:22 [127.0.0.1]:EAccessViolation : Access violation at address 008176A2 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176A2
+ConnectShop: 00002520: 02:21:49 []:Web Server Started.
+ConnectShop: 00001BA8: 02:25:17 []:Web Server Started.
+ConnectShop: 00002C38: 02:25:17 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 00002D94: 02:25:43 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 000019C8: 02:26:12 [127.0.0.1]:EAccessViolation : Access violation at address 008176B0 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176B0
+ConnectShop: 0000111C: 02:26:39 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 0000208C: 02:27:11 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00002C6C: 02:27:32 [127.0.0.1]:EAccessViolation : Access violation at address 008176B0 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176B0
+ConnectShop: 00002398: 02:27:32 [127.0.0.1]:Failure Recovery: Sequence Recover: 4
+ConnectShop: 00001C68: 02:27:35 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 000021FC: 02:28:08 []:Web Server Started.
+ConnectShop: 0000207C: 02:28:49 [127.0.0.1]:EAccessViolation : Access violation at address 008176A8 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176A8
+ConnectShop: 00002744: 02:29:22 [127.0.0.1]:EAccessViolation : Access violation at address 008176A8 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176A8
+ConnectShop: 000010A0: 02:37:41 []:Web Server Started.
+ConnectShop: 00002608: 02:37:41 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 00000DD0: 02:37:43 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 000027E0: 02:37:43 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 00002FE4: 02:38:53 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00002B48: 02:39:16 []:Web Server Started.
+ConnectShop: 00002330: 02:39:17 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 00002990: 02:39:53 [127.0.0.1]:EAccessViolation : Access violation at address 008176A8 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176A8
+ConnectShop: 0000202C: 02:40:22 []:Web Server Started.
+ConnectShop: 000005C4: 02:40:45 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 000009E4: 02:41:30 [127.0.0.1]:EAccessViolation : Access violation at address 008176A8 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176A8
+ConnectShop: 00002DE8: 02:41:38 [127.0.0.1]:Failure Recovery: Sequence Recover: 3
+ConnectShop: 000008E8: 02:41:49 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00000934: 02:42:16 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00000640: 02:56:53 []:Web Server Started.
+ConnectShop: 000028F8: 02:58:13 []:Web Server Started.
+ConnectShop: 00002D5C: 02:58:13 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 00001558: 02:58:28 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00001F90: 03:00:40 []:Web Server Started.
+ConnectShop: 00002C4C: 03:00:40 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD70
+ConnectShop: 00002788: 03:00:52 [127.0.0.1]:EAccessViolation : Access violation at address 008176A5 in module 'ConnectShop.exe'. Read of address 00000000 : Addr: $008176A5
+ConnectShop: 00001ADC: 03:02:50 []:Web Server Started.
+ConnectShop: 00001A08: 03:11:13 []:Web Server Started.
+ConnectShop: 00001BB8: 03:11:53 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00001DB0: 03:12:34 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00000D68: 03:12:38 [127.0.0.1]:EIdHTTPProtocolException : HTTP/1.1 400 Bad Request : Addr: $007E7C6E
+ConnectShop: 00002BB8: 03:13:08 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00002318: 03:13:09 [127.0.0.1]:EIdHTTPProtocolException : HTTP/1.1 400 Bad Request : Addr: $007E7C6E
+ConnectShop: 00001EAC: 03:13:19 [127.0.0.1]:EIdHTTPProtocolException : HTTP/1.1 400 Bad Request : Addr: $007E7C6E
+ConnectShop: 00000954: 03:14:03 [Indy]:EIdConnClosedGracefully : Connection Closed Gracefully. : Addr: $0064FC65
+ConnectShop: 00002150: 04:27:19 []:Web Server Started.
+ConnectShop: 000024FC: 04:27:20 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD90
+ConnectShop: 00001E74: 04:27:20 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD90
+ConnectShop: 000005B0: 04:28:25 []:Web Server Started.
+ConnectShop: 00002C48: 04:28:47 [127.0.0.1]:Failure Recovery: Sequence Recover: 1
+ConnectShop: 00001250: 04:30:25 []:Web Server Started.
+ConnectShop: 00002530: 04:30:32 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD90
+ConnectShop: 000008FC: 04:30:40 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD90
+ConnectShop: 00001F20: 04:30:40 [127.0.0.1]:EUniSessionException : Invalid session or session Timeout. : Addr: $0075CD90

@@ -1,0 +1,134 @@
+unit Main;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, uniGUITypes, uniGUIAbstractClasses,
+  uniGUIClasses, uniGUIRegClasses, uniGUIForm, uniButton, uniLabel,
+  uniGUIBaseClasses, uniEdit, Vcl.Imaging.jpeg, uniImage, uniGroupBox, uniPanel,
+  uniDateTimePicker, uniMultiItem, uniComboBox, System.JSON;
+
+type
+  TMainForm = class(TUniForm)
+    UniImage1: TUniImage;
+    UniPnFormulario: TUniPanel;
+    UniGrFormulario: TUniGroupBox;
+    UniButton1: TUniButton;
+    pnTopo: TUniPanel;
+    UniLabel1: TUniLabel;
+    edEmail: TUniEdit;
+    edNome: TUniEdit;
+    UniLabel2: TUniLabel;
+    pnEstabelecimento: TUniPanel;
+    UniLabel4: TUniLabel;
+    UniComboBox1: TUniComboBox;
+    UniLabel3: TUniLabel;
+    edCpf: TUniEdit;
+    UniPanel1: TUniPanel;
+    UniLabel6: TUniLabel;
+    UniComboBox2: TUniComboBox;
+    UniLabel7: TUniLabel;
+    UniDateTimePicker2: TUniDateTimePicker;
+    UniLabel8: TUniLabel;
+    UniEdit1: TUniEdit;
+    pnEndereco: TUniPanel;
+    UniLabel5: TUniLabel;
+    edCep: TUniEdit;
+    UniLabel9: TUniLabel;
+    edRua: TUniEdit;
+    procedure UniButton1Click(Sender: TObject);
+    procedure UniPnFormularioAlignPosition(Sender: TWinControl;
+      Control: TControl; var NewLeft, NewTop, NewWidth, NewHeight: Integer;
+      var AlignRect: TRect; AlignInfo: TAlignInfo);
+    procedure edCepExit(Sender: TObject);
+  private
+    function ConsumeJsonBytes(AJsonString: String): TJSONObject;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+function MainForm: TMainForm;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  uniGUIVars, MainModule, uniGUIApplication;
+
+function MainForm: TMainForm;
+begin
+  Result := TMainForm(UniMainModule.GetFormInstance(TMainForm));
+end;
+
+procedure TMainForm.edCepExit(Sender: TObject);
+var
+  LJson : TJSONObject;
+  LString: String;
+  Lresponse : string;
+begin
+  LJson := TJSONObject.Create;
+  try
+    LJson := ConsumeJsonBytes(UniMainModule.IdHTTP1.Get('http://viacep.com.br/ws/' + edCep.Text + '/json/'));
+  finally
+    edRua.Text := LJson.GetValue('logradouro').Value);
+    FreeAndNil(LJson);
+  end;
+end;
+
+procedure TMainForm.UniButton1Click(Sender: TObject);
+var
+  LJson : TJSONObject;
+  LStream: TStringStream;
+  LString: String;
+  Lresponse : string;
+begin
+
+  LString :=
+//    '{'
+//    +'"Cliente_ID":0,'
+//    +'"Cliente_Nome":"Meu Novo Cliente",'
+//    +'"Cliente_DataNascimento":"05\/08\/1989",'
+//    +'"Cliente_Telefone":"9999-9999",'
+//    +'"Cliente_Email":"NovoCliente@hotmail.com"'
+//    +'}';
+    '{'
+    +'"id_cliente":"cliente05@cliente05.com.br",'
+    + '"cnpj":12345678901234'
+    + '}';
+
+  LStream := TStringStream.Create(LString);
+
+  LJson := TJSONObject.Create;
+  try
+//    Lresponse := UniMainModule.IdHTTP1.Post('http://192.168.1.28:9991/datasnap/rest/service/' + edNome.Text, LStream);
+//    LJson.ParseJSONValue(UniMainModule.IdHTTP1.Post('http://192.168.1.28:9991/datasnap/rest/service/' + edNome.Text, LStream));
+    LJson := ConsumeJsonBytes(LString);
+  finally
+    ShowMessage(LJson.GetValue('cnpj').Value);
+    FreeAndNil(LJson);
+  end;
+end;
+
+procedure TMainForm.UniPnFormularioAlignPosition(Sender: TWinControl;
+  Control: TControl; var NewLeft, NewTop, NewWidth, NewHeight: Integer;
+  var AlignRect: TRect; AlignInfo: TAlignInfo);
+begin
+  if (Control = UniGrFormulario) or (Control.ClassType = TUniPanel) then
+    NewLeft := AlignRect.Left + ((AlignRect.Width - Control.Width) div 2);
+end;
+
+
+function TMainForm.ConsumeJsonBytes(AJsonString: String): TJSONObject;
+begin
+  Result := nil;
+  Result := TJsonObject.Create;
+  Result.Parse(BytesOf(AJsonString), 0);
+end;
+
+initialization
+  RegisterAppFormClass(TMainForm);
+
+end.

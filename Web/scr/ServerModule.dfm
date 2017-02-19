@@ -2,7 +2,7 @@ object UniServerModule: TUniServerModule
   OldCreateOrder = False
   FilesFolder = 'files\'
   TempFolder = 'temp\'
-  Title = 'New Application'
+  Title = 'ConnectShop - Sua rede social de compras'
   BGColor = 8404992
   CharSet = 'utf-8'
   FaviconOptions = [foVisible, foLocalCache]
