@@ -4604,7 +4604,7 @@ object MainForm: TMainForm
         Left = 2
         Top = 15
         Width = 499
-        Height = 92
+        Height = 68
         Hint = ''
         BorderStyle = ubsNone
         Caption = ''
@@ -4652,14 +4652,16 @@ object MainForm: TMainForm
           Width = 24
           Height = 13
           Hint = ''
+          Visible = False
           Caption = 'Tipo:'
           TabOrder = 5
         end
         object cbTipoUsuario: TUniComboBox
           Left = 71
-          Top = 55
+          Top = 56
           Width = 379
           Hint = ''
+          Visible = False
           Text = 'UniComboBox1'
           Items.Strings = (
             'Cliente'
@@ -4671,7 +4673,7 @@ object MainForm: TMainForm
       end
       object pnEstabelecimento: TUniPanel
         Left = 2
-        Top = 128
+        Top = 104
         Width = 499
         Height = 30
         Hint = ''
@@ -4681,6 +4683,7 @@ object MainForm: TMainForm
         Align = alTop
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 3
+        ExplicitTop = 128
         object UniLabel4: TUniLabel
           Left = 11
           Top = 10
@@ -4727,7 +4730,7 @@ object MainForm: TMainForm
       end
       object pnCliente: TUniPanel
         Left = 2
-        Top = 92
+        Top = 68
         Width = 499
         Height = 36
         Hint = ''
@@ -4736,6 +4739,7 @@ object MainForm: TMainForm
         Align = alTop
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 4
+        ExplicitTop = 92
         object UniLabel6: TUniLabel
           Left = 11
           Top = 12
@@ -4798,7 +4802,7 @@ object MainForm: TMainForm
       end
       object pnEndereco: TUniPanel
         Left = 2
-        Top = 158
+        Top = 134
         Width = 499
         Height = 100
         Hint = ''
@@ -4807,7 +4811,7 @@ object MainForm: TMainForm
         Align = alTop
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 5
-        ExplicitTop = 164
+        ExplicitTop = 158
         object UniLabel5: TUniLabel
           Left = 11
           Top = 10
@@ -4915,7 +4919,6 @@ object MainForm: TMainForm
           Top = 34
           Width = 53
           Hint = ''
-          Enabled = False
           Text = ''
           TabOrder = 12
         end

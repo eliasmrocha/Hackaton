@@ -83,11 +83,11 @@ var
 begin
   LJson := TJSONObject.Create;
   try
-    LJson := ConsumeJsonBytes(UniMainModule.IdHTTP1.Get('http://viacep.com.br/ws/' + edCep.Text + '/json/'));
-    edRua.Text := LJson.GetValue('logradouro').Value;
-    edBairro.Text := LJson.GetValue('bairro').Value;
+    LJson         := ConsumeJsonBytes(UniMainModule.IdHTTP1.Get('http://viacep.com.br/ws/' + edCep.Text + '/json/'));
+    edRua.Text    := LJson.GetValue('logradouro').Value;
+    edBairro.Text := LJson.GetValue('bairro'    ).Value;
     edCidade.Text := LJson.GetValue('localidade').Value;
-    edEstado.Text := LJson.GetValue('uf').Value;
+    edEstado.Text := LJson.GetValue('uf'        ).Value;
   finally
     FreeAndNil(LJson);
   end;
@@ -102,27 +102,25 @@ var
 begin
 
   LString :=
-//    '{'
-//    +'"Cliente_ID":0,'
-//    +'"Cliente_Nome":"Meu Novo Cliente",'
-//    +'"Cliente_DataNascimento":"05\/08\/1989",'
-//    +'"Cliente_Telefone":"9999-9999",'
-//    +'"Cliente_Email":"NovoCliente@hotmail.com"'
-//    +'}';
     '{'
-    +'"id_cliente":"cliente05@cliente05.com.br",'
-    + '"cnpj":12345678901234'
-    + '}';
+    +'"Cliente_Nome":"'           + edNome.Text                      + '",'
+    +'"Cliente_DataNascimento":"' + DateToStr(dpNascimento.DateTime) + '",'
+    +'"Cliente_cpf":"'            + edCPF.Text                       + '",'
+    +'"Cliente_Email":"'          + edEmail.text                     + '",'
+    +'"Cliente_cep":"'            + edCep.text                       + '",'
+    +'"Cliente_rua":"'            + edRua.text                       + '",'
+    +'"Cliente_bairro":"'         + edBairro.text                    + '",'
+    +'"Cliente_cidade":"'         + edCidade.text                    + '",'
+    +'"Cliente_uf":"'             + edEstado.text                    + '",'
+    +'"Cliente_numero":"'         + edNumero.text                    + '"'
+    +'}';
 
   LStream := TStringStream.Create(LString);
 
   LJson := TJSONObject.Create;
   try
-//    Lresponse := UniMainModule.IdHTTP1.Post('http://192.168.1.28:9991/datasnap/rest/service/' + edNome.Text, LStream);
-//    LJson.ParseJSONValue(UniMainModule.IdHTTP1.Post('http://192.168.1.28:9991/datasnap/rest/service/' + edNome.Text, LStream));
-    LJson := ConsumeJsonBytes(LString);
+    LJson.ParseJSONValue(UniMainModule.IdHTTP1.Post('http://192.168.1.28:9991/datasnap/rest/service/atualizacliente', LStream));
   finally
-    ShowMessage(LJson.GetValue('cnpj').Value);
     FreeAndNil(LJson);
   end;
 end;
@@ -132,10 +130,8 @@ var
   LEmail : String;
 begin
   LEmail          := UniApplication.Parameters.Values['email'];
-  edEmail.Enabled := LEmail <> '';
-
-  if LEmail <> '' then
-    edEmail.Text := LEmail;
+  edEmail.Enabled := LEmail = '';
+  edEmail.Text    := LEmail;
 end;
 
 procedure TMainForm.cbTipoUsuarioChange(Sender: TObject);
