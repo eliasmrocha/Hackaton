@@ -61,7 +61,7 @@ begin
       LQuery.SQL.Add('  :id     ');
       LQuery.SQL.Add(')');
 
-      LQuery.ParamByName('id').AsInteger := FIdCliente;
+      LQuery.ParamByName('id').AsInteger := FId;
       LQuery.ExecSQL();
     except
       raise Exception.Create('ERRO AO GRAVAR USUARIO');
@@ -133,21 +133,50 @@ begin
       LQuery.Connection := FConexao;
 
       LQuery.SQL.Clear;
-      LQuery.SQL.Add('SELECT 1 AS id  ');
-      LQuery.SQL.Add('FROM            ');
-      LQuery.SQL.Add('  usuario u     ');
+      LQuery.SQL.Add('SELECT               ');
+      LQuery.SQL.Add('  c.id,              ');
+      LQuery.SQL.Add('  c.nome,            ');
+      LQuery.SQL.Add('  c.email,           ');
+      LQuery.SQL.Add('  c.endereco,        ');
+      LQuery.SQL.Add('  c.complemento,     ');
+      LQuery.SQL.Add('  c.numero,          ');
+      LQuery.SQL.Add('  c.bairro,          ');
+      LQuery.SQL.Add('  c.Cep,             ');
+      LQuery.SQL.Add('  u.Cpf,             ');
+      LQuery.SQL.Add('  u.Data_Nascimento, ');
+      LQuery.SQL.Add('  u.Sexo,            ');
+      LQuery.SQL.Add('  u.Senha            ');
+      LQuery.SQL.Add('FROM                 ');
+      LQuery.SQL.Add('  usuario u          ');
       LQuery.SQL.Add('  INNER JOIN cliente c ON (u.id = c.id) ');
-      LQuery.SQL.Add('WHERE           ');
-      LQuery.SQL.Add('  email = :email');
+      LQuery.SQL.Add('WHERE                ');
+      LQuery.SQL.Add('  email = :email     ');
 
-      LQuery.ParamByName('email').AsString := FEMail;
+      LQuery.ParamByName('email').AsString := AEmail;
       LQuery.Open();
+
+      FEMail := AEmail;
 
       //Não existe registro
       if LQuery.RecordCount = 0 then
       begin
         CadastraUsuario;
         EnviaEmail;
+      end
+      else
+      begin
+        FId             := LQuery.FieldByName('id').AsInteger;
+        FNome           := LQuery.FieldByName('nome').AsString;
+        FEMail          := LQuery.FieldByName('email').AsString;
+        FEndereco       := LQuery.FieldByName('endereco').AsString;
+        FComplemento    := LQuery.FieldByName('complemento').AsString;
+        FNumero         := LQuery.FieldByName('numero').AsString;
+        FBairro         := LQuery.FieldByName('bairro').AsString;
+        FCEP            := LQuery.FieldByName('Cep').AsString;
+        FCPF            := LQuery.FieldByName('Cpf').AsString;
+        FSexo           := LQuery.FieldByName('Sexo').AsString;
+        FDataNascimento := LQuery.FieldByName('Data_Nascimento').AsDateTime;
+        FSenha          := LQuery.FieldByName('Senha').AsString;
       end;
     except
       raise Exception.Create('ERRO AO GRAVAR USUARIO');

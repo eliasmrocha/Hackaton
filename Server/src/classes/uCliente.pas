@@ -14,6 +14,7 @@ type
   protected
     FConexao: TFDConnection;
 
+    FId: Integer;
     FBairro: string;
     FEMail: string;
     FCEP: string;
@@ -22,22 +23,21 @@ type
     FNome: string;
     FEndereco: string;
 
-    FIdCliente: Integer;
-
     procedure CadastraCliente;
     { Protected Declarations }
   public
     //Métodos públicos
-    constructor Create(AConexao: TFDConnection);
+    constructor Create(AConexao: TFDConnection); virtual;
 
     //Propriedades
-    property Nome       : string read FNome         write FNome;
-    property EMail      : string read FEMail        write FEMail;
-    property Endereco   : string read FEndereco     write FEndereco;
-    property Complemento: string read FComplemento  write FComplemento;
-    property Numero     : string read FNumero       write FNumero;
-    property Bairro     : string read FBairro       write FBairro;
-    property CEP        : string read FCEP          write FCEP;
+    property Id         : Integer read FId           write FId;
+    property Nome       : string  read FNome         write FNome;
+    property EMail      : string  read FEMail        write FEMail;
+    property Endereco   : string  read FEndereco     write FEndereco;
+    property Complemento: string  read FComplemento  write FComplemento;
+    property Numero     : string  read FNumero       write FNumero;
+    property Bairro     : string  read FBairro       write FBairro;
+    property CEP        : string  read FCEP          write FCEP;
     { Public Declarations }
   end;
 
@@ -64,9 +64,9 @@ begin
       LQuery.SQL.Add(')');
 
       //Carrega ID do cliente
-      FIdCliente := RetornaIdCliente();
+      FId := RetornaIdCliente();
 
-      LQuery.ParamByName('id'   ).AsInteger := FIdCliente;
+      LQuery.ParamByName('id'   ).AsInteger := FId;
       LQuery.ParamByName('email').AsString  := FEMail;
       LQuery.ExecSQL();
     except
@@ -79,8 +79,7 @@ end;
 
 constructor TCliente.Create(AConexao: TFDConnection);
 begin
-  FConexao   := AConexao;
-  FIdCliente := -1;
+  FConexao := AConexao;
 end;
 
 function TCliente.RetornaIdCliente: Integer;

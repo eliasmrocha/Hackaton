@@ -3,31 +3,84 @@ unit uEstabelecimento;
 interface
 
 uses
-  uCliente;
+  FireDAC.Comp.Client, FireDAC.Stan.Param, uCliente, uSegmento;
 
 type
   TEstabelecimento = class(TCliente)
   private
+    FCNPJ: string;
+    FSegmento: TSegmento;
+    FId: integer;
     { Private Declarations }
   public
+    constructor Create(AConexao: TFDConnection); override;
+    destructor  Destroy; override;
+
     //Métodos públicos
     procedure LocalizaEstabelecimentoPorCNPJ(ACNPJ: string);
 
     //Propriedades
-//    property CNPJ           : string    read FCNPJ           write FCNPJ;
-//    property Segmento      : string     read FSexo            write FSexo;
-//    property DataNascimento: TDateTime  read FDataNascimento  write FDataNascimento;
-//    property Senha         : string     read FSenha           write FSenha;
+    property Id       : integer   read FId       write FId;
+    property CNPJ     : string    read FCNPJ     write FCNPJ;
+    property Segmento : TSegmento read FSegmento write FSegmento;
     { Public Declarations }
   end;
 
 implementation
 
+uses
+  System.SysUtils;
+
 { TEstabelecimento }
 
-procedure TEstabelecimento.LocalizaEstabelecimentoPorCNPJ(ACNPJ: string);
+constructor TEstabelecimento.Create(AConexao: TFDConnection);
 begin
+  inherited;
 
+  FSegmento := TSegmento.Create(AConexao);
+end;
+
+destructor TEstabelecimento.Destroy;
+begin
+  FSegmento.Free;
+
+  inherited;
+end;
+
+procedure TEstabelecimento.LocalizaEstabelecimentoPorCNPJ(ACNPJ: string);
+var
+  LQuery : TFDQuery;
+begin
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT            ');
+      LQuery.SQL.Add('  id,             ');
+      LQuery.SQL.Add('  segmento_id     ');
+      LQuery.SQL.Add('FROM              ');
+      LQuery.SQL.Add('  estabelecimento ');
+      LQuery.SQL.Add('WHERE             ');
+      LQuery.SQL.Add('  cnpj = :cnpj    ');
+
+      LQuery.ParamByName('cnpj').AsString := ACNPJ;
+      LQuery.Open();
+
+      if LQuery.RecordCount <> 0 then
+      begin
+        FId   := LQuery.FieldByName('id').AsInteger;
+        FCNPJ := ACNPJ;
+
+        FSegmento.LocalizaSegmento(LQuery.FieldByName('segmento_id').AsInteger);
+      end;
+    except
+      raise Exception.Create('ERRO AO LOCALIZAR O ESTABELECIMENTO');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
 end;
 
 end.
