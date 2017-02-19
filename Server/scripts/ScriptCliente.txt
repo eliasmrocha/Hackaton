@@ -1,0 +1,27 @@
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (01, 'Cliente 01', 'cliente01@cliente01.com.br', 'Rua do Rio', null, 'SN', 'Bessa', '58010122');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (02, 'Cliente 02', 'cliente02@cliente02.com.br', 'Alameda dos Anjos', null, null, 'Torre', '58020233');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (03, 'Cliente 03', 'cliente03@cliente03.com.br', 'Rua João da Silva', null, 'SN', 'Centro', '58080344');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (04, 'Cliente 04', 'cliente04@cliente04.com.br', 'Av. Carneiro da Silva', 'Casa 01', '100', 'Cristo', '58030455');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (05, 'Cliente 05', 'cliente05@cliente05.com.br', 'Rua Cavalcanti Lima', null, '475', 'Cabo Branco', '58070566');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (06, 'Cliente 06', 'cliente06@cliente06.com.br', 'Av Presidente Epitácio Pessoa', null, '336', 'Tambaú', '58040677');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (07, 'Cliente 07', 'cliente07@cliente07.com.br', 'Rua São Bernardo', null, '222', 'Centro', '58060788');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (08, 'Cliente 08', 'cliente08@cliente08.com.br', 'Rua Maria da Silva', null, null, 'Bairro dos Estados', '58090899');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (09, 'Cliente 09', 'cliente09@cliente09.com.br', 'Rua São Gonçalo', 'Apartamento 303', null, 'Mandacarú', '58010900');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (10, 'Cliente 10', 'cliente10@cliente10.com.br', 'Rua Teotônio de Azevedo', null, '125A', 'Altiplano', '58040001');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (11, 'Cliente 11', 'cliente11@cliente11.com.br', 'Av. Principal', null, '700', 'Centro', '58070010');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (12, 'Cliente 12', 'cliente12@cliente12.com.br', 'Pc José Américo', 'Apartamento 1010', '101', 'Centro', '58060033');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (13, 'Cliente 13', 'cliente13@cliente13.com.br', 'Alameda Torre', null, '333', 'Bessa', '58020456');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (14, 'Cliente 14', 'cliente14@cliente14.com.br', 'Rua Tiradentes', null, '456', 'Intermares', '58060876');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (15, 'Cliente 15', 'cliente15@cliente15.com.br', 'Av. Coronel Silva', null, '78', 'Centro', '58070851');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (16, 'Cliente 16', 'cliente16@cliente16.com.br', 'Rua Silva e Lima', 'Apartamento 101', '23', 'Bessa', '58040984');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (17, 'Cliente 17', 'cliente17@cliente17.com.br', 'Rua Severino Ramos', null, 'SN', 'Centro', '58030785');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (18, 'Cliente 18', 'cliente18@cliente18.com.br', 'Rua Cris Barboza', 'Apartamento 202', null, 'Centro', '58070137');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (19, 'Cliente 19', 'cliente19@cliente19.com.br', 'Rua Silva Lima', null, 'SN', 'Altiplano', '58060789');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (20, 'Cliente 20', 'cliente20@cliente20.com.br', 'Av. Rui Carneiro', null, 'SN', 'Centro', '58020451');
+
+
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (21, 'Estabelecimento 01', 'estab01@estab01.com.br', 'Rua das Jaqueiras', null, 'SN', 'Centro', '58000010');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (22, 'Estabelecimento 02', 'estab02@estab02.com.br', 'Rua João da Silva', null, null, 'Jardim Oceaia', '58001000');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (23, 'Estabelecimento 03', 'estab03@estab03.com.br', 'Rua Maria Joaquina', null, 'SN', 'Centro', '58635455');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (24, 'Estabelecimento 04', 'estab04@estab04.com.br', 'Av. Dim Pedri I', null, '300', 'Mangabeira', '57985633');
+insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (25, 'Estabelecimento 05', 'estab05@estab05.com.br', 'Rua Saulo Lopes', null, '451', 'Manaíra', '58006540');
