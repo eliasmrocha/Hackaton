@@ -101,7 +101,7 @@ begin
   try
     try
       LUsuario.Assign(AJSONVenda);
-      //LUsuario.CadastraVenda;
+      LUsuario.CadastraVenda;
 
       Result := 'VENDA REGISTRADA';
     except
@@ -135,21 +135,18 @@ end;
 
 function DataSetToJSON(ADataSet : TDataset) : TJSONArray;
 Var
-  JObject  : TJSONObject;
+  LJObject  : TJSONObject;
   i        : Integer;
 begin
   Result := TJSONArray.Create;
   ADataSet.First;
   while Not(ADataSet.Eof) do
   begin
-    JObject := TJSONObject.Create;
+    LJObject := TJSONObject.Create;
     for i := 0 to ADataSet.FieldCount-1 do
-    begin
+      LJObject.AddPair(ADataSet.Fields[i].FieldName, ADataSet.Fields[i].AsString);
 
-      JObject.AddPair(ADataSet.Fields[i].FieldName, ADataSet.Fields[i].AsString);
-    end;
-
-    Result.AddElement(JObject);
+    Result.Add(LJObject.ToJSON);
     ADataSet.Next;
   end;
 end;
@@ -163,6 +160,9 @@ begin
   Result := TJSONObject.Create;
   for i := 0 to ADataSet.FieldCount-1 do
     Result.AddPair(ADataSet.Fields[i].FieldName, TJSONString.Create(ADataSet.Fields[i].AsString));
+
+  GetInvocationMetadata().ResponseCode    := 200;
+  GetInvocationMetadata().ResponseContent := Result.ToString;
 end;
 
 end.

@@ -101,7 +101,7 @@ begin
   try
     try
       LUsuario.Assign(AJSONVenda);
-      LUsuario.CadastraVenda;
+      LUsuario.AlteraUsuario;
 
       Result := 'VENDA REGISTRADA';
     except

@@ -53,6 +53,24 @@ uses
 { TUsuario }
 
 procedure TUsuario.AlteraUsuario;
+begin
+  AtualizaCliente;
+  AtualizaUsuario;
+end;
+
+procedure TUsuario.Assign(AJSON: TJSONObject);
+begin
+  FNome           := AJSON.GetValue('Cliente_Nome'          ).Value;
+  FSenha          := AJSON.GetValue('Cliente_Senha'         ).Value;
+  FCpf            := AJSON.GetValue('Cliente_cpf'           ).Value;
+  FEmail          := AJSON.GetValue('Cliente_Email'         ).Value;
+  FCep            := AJSON.GetValue('Cliente_cep'           ).Value;
+  FEndereco       := AJSON.GetValue('Cliente_rua'           ).Value;
+  FBairro         := AJSON.GetValue('Cliente_bairro'        ).Value;
+  FNumero         := AJSON.GetValue('Cliente_numero'        ).Value;
+end;
+
+procedure TUsuario.AtualizaCliente;
 var
   LQuery : TFDQuery;
   LDataSet: TDataSet;
@@ -79,6 +97,13 @@ begin
         LQuery.SQL.Add('WHERE ');
         LQuery.SQL.Add('  id =:id ');
 
+        LQuery.ParamByName('nome').AsString := FNome;
+        LQuery.ParamByName('email').AsString := FEMail;
+        LQuery.ParamByName('endereco').AsString := FEndereco;
+        LQuery.ParamByName('complemento').AsString := FComplemento;
+        LQuery.ParamByName('numero').AsString := FNumero;
+        LQuery.ParamByName('bairro').AsString := FBairro;
+        LQuery.ParamByName('cep').AsString := FCEP;
         LQuery.ParamByName('id').AsInteger := FId;
         LQuery.ExecSQL();
       except
@@ -92,27 +117,43 @@ begin
   end;
 end;
 
-procedure TUsuario.Assign(AJSON: TJSONObject);
-begin
-  FNome           := AJSON.GetValue('Cliente_Nome'          ).Value;
-  FSenha          := AJSON.GetValue('Cliente_Senha'         ).Value;
-  //FDataNascimento := AJSON.GetValue('Cliente_DataNascimento').Value;
-  FCpf            := AJSON.GetValue('Cliente_cpf'           ).Value;
-  FEmail          := AJSON.GetValue('Cliente_Email'         ).Value;
-  FCep            := AJSON.GetValue('Cliente_cep'           ).Value;
-  FEndereco       := AJSON.GetValue('Cliente_rua'           ).Value;
-  FBairro         := AJSON.GetValue('Cliente_bairro'        ).Value;
-  FNumero         := AJSON.GetValue('Cliente_numero'        ).Value;
-end;
-
-procedure TUsuario.AtualizaCliente;
-begin
-
-end;
-
 procedure TUsuario.AtualizaUsuario;
+var
+  LQuery : TFDQuery;
+  LDataSet: TDataSet;
 begin
+  LDataSet := TDataSet.Create(FConexao);
+  try
+    LDataSet := LocalizaUsuarioPorEmail(FEMail, FSenha);
 
+    LQuery := TFDQuery.Create(FConexao);
+    try
+      try
+        LQuery.Connection := FConexao;
+
+        LQuery.SQL.Clear;
+        LQuery.SQL.Add('UPDATE usuario ');
+        LQuery.SQL.Add('SET ');
+        LQuery.SQL.Add('  senha = :senha, ');
+        LQuery.SQL.Add('  cpf = :cpf, ');
+        LQuery.SQL.Add('  sexo = :sexo ');
+        LQuery.SQL.Add('WHERE ');
+        LQuery.SQL.Add('  id =:id ');
+
+        LQuery.ParamByName('id').AsInteger := FId;
+        LQuery.ParamByName('senha').AsString := FSenha;
+        LQuery.ParamByName('cpf').AsString := FCPF;
+        LQuery.ParamByName('sexo').AsString := FSexo;
+        LQuery.ExecSQL();
+      except
+        raise Exception.Create('ERRO AO ATUALIZAR O USUARIO');
+      end;
+    finally
+      FreeAndNil(LQuery);
+    end;
+  finally
+    FreeAndNil(LDataSet);
+  end;
 end;
 
 procedure TUsuario.CadastraUsuario;
@@ -317,14 +358,13 @@ begin
       LQuery.ParamByName('id').AsInteger := AId;
       LQuery.Open();
 
-      if (LQuery.RecordCount <> 0) then
-        Result := LQuery;
+      Result := LQuery;
     except
       on E: Exception do
         raise Exception.Create('ERRO AO CONSULTAR AS PUBLICAÇÕES DO USUARIO');
     end;
   finally
-    FreeAndNil(LQuery);
+    //FreeAndNil(LQuery);
   end;
 end;
 

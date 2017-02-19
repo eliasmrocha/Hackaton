@@ -97,6 +97,13 @@ begin
         LQuery.SQL.Add('WHERE ');
         LQuery.SQL.Add('  id =:id ');
 
+        LQuery.ParamByName('nome').AsString := FNome;
+        LQuery.ParamByName('email').AsString := FEMail;
+        LQuery.ParamByName('endereco').AsString := FEndereco;
+        LQuery.ParamByName('complemento').AsString := FComplemento;
+        LQuery.ParamByName('numero').AsString := FNumero;
+        LQuery.ParamByName('bairro').AsString := FBairro;
+        LQuery.ParamByName('cep').AsString := FCEP;
         LQuery.ParamByName('id').AsInteger := FId;
         LQuery.ExecSQL();
       except
@@ -111,8 +118,42 @@ begin
 end;
 
 procedure TUsuario.AtualizaUsuario;
+var
+  LQuery : TFDQuery;
+  LDataSet: TDataSet;
 begin
+  LDataSet := TDataSet.Create(FConexao);
+  try
+    LDataSet := LocalizaUsuarioPorEmail(FEMail, FSenha);
 
+    LQuery := TFDQuery.Create(FConexao);
+    try
+      try
+        LQuery.Connection := FConexao;
+
+        LQuery.SQL.Clear;
+        LQuery.SQL.Add('UPDATE usuario ');
+        LQuery.SQL.Add('SET ');
+        LQuery.SQL.Add('  senha = :senha, ');
+        LQuery.SQL.Add('  cpf = :cpf, ');
+        LQuery.SQL.Add('  sexo = :sexo ');
+        LQuery.SQL.Add('WHERE ');
+        LQuery.SQL.Add('  id =:id ');
+
+        LQuery.ParamByName('id').AsInteger := FId;
+        LQuery.ParamByName('senha').AsString := FSenha;
+        LQuery.ParamByName('cpf').AsString := FCPF;
+        LQuery.ParamByName('sexo').AsString := FSexo;
+        LQuery.ExecSQL();
+      except
+        raise Exception.Create('ERRO AO ATUALIZAR O USUARIO');
+      end;
+    finally
+      FreeAndNil(LQuery);
+    end;
+  finally
+    FreeAndNil(LDataSet);
+  end;
 end;
 
 procedure TUsuario.CadastraUsuario;
