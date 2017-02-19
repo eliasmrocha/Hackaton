@@ -13,6 +13,7 @@ object Form1: TForm1
   Font.Style = []
   OldCreateOrder = False
   WindowState = wsMaximized
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object pnPadTop: TPanel
@@ -23,9 +24,6 @@ object Form1: TForm1
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = 296
-    ExplicitTop = 216
-    ExplicitWidth = 185
   end
   object Panel2: TPanel
     Left = 41
@@ -37,7 +35,6 @@ object Form1: TForm1
     Color = clRed
     ParentBackground = False
     TabOrder = 1
-    ExplicitHeight = 438
     object pnLogo: TPanel
       Left = 0
       Top = 0
@@ -46,7 +43,6 @@ object Form1: TForm1
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitWidth = 296
       object Image1: TImage
         Left = 0
         Top = 0
@@ -641,7 +637,6 @@ object Form1: TForm1
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 1
-      ExplicitTop = 60
       object Label1: TLabel
         Left = 1
         Top = 1
@@ -5500,7 +5495,6 @@ object Form1: TForm1
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 2
-      ExplicitTop = 60
       object Label2: TLabel
         Left = 1
         Top = 1
@@ -7561,7 +7555,6 @@ object Form1: TForm1
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 3
-      ExplicitTop = 60
       object Label3: TLabel
         Left = 1
         Top = 1
@@ -9513,7 +9506,6 @@ object Form1: TForm1
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 4
-      ExplicitTop = 60
       object Label4: TLabel
         Left = 1
         Top = 1
@@ -9527,7 +9519,7 @@ object Form1: TForm1
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
-        ExplicitLeft = -1
+        ExplicitWidth = 244
       end
       object Panel18: TPanel
         Left = 3
@@ -20749,9 +20741,6 @@ object Form1: TForm1
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 1
-        ExplicitTop = 1
-        ExplicitWidth = 440
         ExplicitHeight = 32
       end
     end
@@ -20764,9 +20753,6 @@ object Form1: TForm1
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = -6
-    ExplicitTop = 47
-    ExplicitHeight = 438
   end
   object pnContainer: TPanel
     Left = 489
@@ -20778,7 +20764,6 @@ object Form1: TForm1
     Color = clBlue
     ParentBackground = False
     TabOrder = 3
-    ExplicitLeft = 490
     DesignSize = (
       591
       736)
@@ -23157,5 +23142,22 @@ object Form1: TForm1
       TabOrder = 1
       Zoom = 100
     end
+  end
+  object IdHTTP1: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 112
+    Top = 88
   end
 end
