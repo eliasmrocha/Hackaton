@@ -1,0 +1,60 @@
+unit uConexao;
+
+interface
+
+uses
+  FireDAC.Comp.Client, System.SysUtils;
+
+type
+  TConexaoDB = class
+    private
+    FConnection: TFDConnection;
+    protected
+      procedure ConfigurarDB;
+    public
+      constructor Create;
+      destructor Destroy;
+    published
+      property Connection : TFDConnection read FConnection;
+  end;
+
+implementation
+
+{ TConexaoDB }
+
+procedure TConexaoDB.ConfigurarDB;
+Var
+  sDbPath          : String;
+  configuraTabelas : Boolean;
+  handleFile       : Integer;
+begin
+  sDbPath := ExtractFilePath(Application.ExeName) + sNameDB ;
+
+  if Not(FileExists(sDbPath)) then
+  Begin
+    handleFile := FileCreate(sDbPath);
+    FileClose(handleFile);
+    configuraTabelas := True;
+  End;
+
+  // Passa os parametros de Conexão e Conecta ao Banco de Dados
+  Connection.LoginPrompt := False;
+  Connection.Params.Clear;
+  Connection.Params.Values['Database']     := sDbPath;
+  Connection.Params.Values['DriverID']     := 'SQLite';
+  Connection.Params.Values['CharacterSet'] := 'utf8';
+  Connection.Connected := True;
+end;
+
+constructor TConexaoDB.Create;
+begin
+  FConnection := TFDConnection.Create(nil);
+  ConfigurarDB;
+end;
+
+destructor TConexaoDB.Destroy;
+begin
+  FreeAndNil(FConnection);
+end;
+
+end.

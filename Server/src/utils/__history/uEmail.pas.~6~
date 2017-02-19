@@ -1,0 +1,32 @@
+unit uEmail;
+
+interface
+
+uses
+  IdSMTP, IdSSLOpenSSL, IdMessage;
+
+type
+  TEmail = class
+  private
+    FSMTP: TIdSMTP;
+    FSSLSocket: TIdSSLIOHandlerSocketOpenSSL;
+    FIdMessage: TIdMessage;
+
+    FEmail: string;
+    FSenha: string;
+    FHost: string;
+    FPorta: string;
+    FAssunto: string;
+    { Private Declarations }
+  public
+    property Email  : string read FEmail   write FEmail;
+    property Senha  : string read FSenha   write FSenha;
+    property Host   : string read FHost    write FHost;
+    property Porta  : string read FPorta   write FPorta;
+    property Assunto: string read FAssunto write FAssunto;
+    { Public Declarations }
+  end;
+
+implementation
+
+end.

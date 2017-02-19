@@ -1,0 +1,40 @@
+unit uEmail;
+
+interface
+
+uses
+  IdSMTP, IdSSLOpenSSL, IdMessage;
+
+type
+  TEmail = class
+  private
+    FSMTP: TIdSMTP;
+    FSSLSocket: TIdSSLIOHandlerSocketOpenSSL;
+    FIdMessage: TIdMessage;
+
+    FEmail: string;
+    FSenha: string;
+    FHost: string;
+    FPorta: Integer;
+    FAssunto: string;
+    { Private Declarations }
+  public
+    constructor Create(AEmail, ASenha, AHost, AAssunto: string; APorta: Integer);
+    { Public Declarations }
+  end;
+
+implementation
+
+{ TEmail }
+
+constructor TEmail.Create(AEmail, ASenha, AHost, AAssunto: string;
+  APorta: Integer);
+begin
+  FEmail   := AEmail;
+  FSenha   := ASenha;
+  FHost    := AHost;
+  FAssunto := FAssunto;
+  FPorta   := APorta;
+end;
+
+end.

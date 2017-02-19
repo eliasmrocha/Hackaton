@@ -18,6 +18,8 @@ insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep)
 insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (18, 'Cliente 18', 'cliente18@cliente18.com.br', 'Rua Cris Barboza', 'Apartamento 202', null, 'Centro', '58070137');
 insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (19, 'Cliente 19', 'cliente19@cliente19.com.br', 'Rua Silva Lima', null, 'SN', 'Altiplano', '58060789');
 insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (20, 'Cliente 20', 'cliente20@cliente20.com.br', 'Av. Rui Carneiro', null, 'SN', 'Centro', '58020451');
+
+
 insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (21, 'Estabelecimento 01', 'estab01@estab01.com.br', 'Rua das Jaqueiras', null, 'SN', 'Centro', '58000010');
 insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (22, 'Estabelecimento 02', 'estab02@estab02.com.br', 'Rua João da Silva', null, null, 'Jardim Oceaia', '58001000');
 insert into cliente(id, nome, email, endereco, complemento, numero, bairro, cep) values (23, 'Estabelecimento 03', 'estab03@estab03.com.br', 'Rua Maria Joaquina', null, 'SN', 'Centro', '58635455');
@@ -101,3 +103,5 @@ SELECT sq_segmento.NEXTVAL FROM dual;
 ALTER SEQUENCE sq_cliente INCREMENT BY 25 MINVALUE 0;
 SELECT sq_cliente.NEXTVAL FROM dual; 
 ALTER SEQUENCE sq_cliente INCREMENT BY 1 MINVALUE 0;
+
+INSERT INTO email_config(email, senha, host, porta, assunto) VALUES ('eliasiteipj@gmail.com', 'YwqHNqU0AZAgsh', 'smtp.gmail.com', 465, 'ConnectShop - Novo Usuário');

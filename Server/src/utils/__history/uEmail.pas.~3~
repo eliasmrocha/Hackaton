@@ -1,0 +1,21 @@
+unit uEmail;
+
+interface
+
+uses
+  IdSMTP, IdSSLOpenSSL, IdMessage;
+
+type
+  TEmail = class
+  private
+    FSMTP: TIdSMTP;
+    FSSLSocket: TIdSSLIOHandlerSocketOpenSSL;
+    FIdMessage: TIdMessage;
+    { Private Declarations }
+  public
+    { Public Declarations }
+  end;
+
+implementation
+
+end.

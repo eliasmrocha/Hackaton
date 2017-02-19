@@ -1,0 +1,118 @@
+unit uUtils;
+
+interface
+
+uses Classes, System.SysUtils, IdHashMessageDigest, Windows;
+
+type
+  TStringArray = array of string;
+
+function SplitString(Delimiter: Char; Str: string): TStringArray;
+function HashCalculate(PString: string): string;
+function GetMacAddress: string;
+function FindVolumeSerial(const Drive : PChar) : string;
+function PadWithZeros(const Value: String; PadLength: Integer): String;
+
+implementation
+
+function SplitString(Delimiter: Char; Str: string): TStringArray;
+var
+  LStringList: TStringList;
+  I          : Integer;
+begin
+  LStringList := TStringList.Create;
+  try
+    LStringList.Clear;
+    LStringList.Delimiter     := Delimiter;
+    LStringList.DelimitedText := Str;
+    SetLength(Result, LStringList.count);
+    for I := 0 to LStringList.count - 1 do
+    begin
+      Result[I] := LStringList[I];
+    end;
+  finally
+    FreeAndNil(LStringList);
+  end;
+end;
+
+function HashCalculate(PString: string): string;
+var
+  LIdmd5: TIdHashMessageDigest5;
+begin
+  LIdmd5 := TIdHashMessageDigest5.Create;
+  try
+    result := LIdmd5.HashStringAsHex(PString);
+  finally
+    FreeAndNil(LIdmd5);
+  end;
+end;
+
+//Leia mais em: MD5 com Delphi Usando Indy http://www.devmedia.com.br/md5-com-delphi-usando-indy/12647#ixzz36MgEVoQN
+
+function GetMacAddress: string;
+var
+  Lib: Cardinal;
+  Func: function(GUID: PGUID): Longint; stdcall;
+  GUID1, GUID2: TGUID;
+begin
+  Result := '';
+  Lib := LoadLibrary('rpcrt4.dll');
+
+  if (Lib <> 0) then
+  begin
+    @Func := GetProcAddress(Lib, 'UuidCreateSequential');
+    if (Assigned(Func)) then
+    begin
+      if ((Func(@GUID1) = 0) and
+         (Func(@GUID2) = 0) and
+         (GUID1.D4[2] = GUID2.D4[2]) and
+         (GUID1.D4[3] = GUID2.D4[3]) and
+         (GUID1.D4[4] = GUID2.D4[4]) and
+         (GUID1.D4[5] = GUID2.D4[5]) and
+         (GUID1.D4[6] = GUID2.D4[6]) and
+         (GUID1.D4[7] = GUID2.D4[7])) then
+      begin
+        Result :=
+        IntToHex(GUID1.D4[2], 2) + '-' +
+        IntToHex(GUID1.D4[3], 2) + '-' +
+        IntToHex(GUID1.D4[4], 2) + '-' +
+        IntToHex(GUID1.D4[5], 2) + '-' +
+        IntToHex(GUID1.D4[6], 2) + '-' +
+        IntToHex(GUID1.D4[7], 2);
+      end;
+    end;
+  end;
+end;
+
+function FindVolumeSerial(const Drive : PChar) : string;
+var
+   VolumeSerialNumber : DWORD;
+   MaximumComponentLength : DWORD;
+   FileSystemFlags : DWORD;
+   SerialNumber : string;
+begin
+   Result:='';
+
+   GetVolumeInformation(
+        Drive,
+        nil,
+        0,
+        @VolumeSerialNumber,
+        MaximumComponentLength,
+        FileSystemFlags,
+        nil,
+        0) ;
+   SerialNumber :=
+         IntToHex(HiWord(VolumeSerialNumber), 4) +
+         ' - ' +
+         IntToHex(LoWord(VolumeSerialNumber), 4) ;
+
+   Result := SerialNumber;
+end;
+
+function PadWithZeros(const Value: String; PadLength: Integer): String;
+begin
+  result := StringOfChar('0', PadLength - Length(Value)) + Value;
+end;
+
+end.

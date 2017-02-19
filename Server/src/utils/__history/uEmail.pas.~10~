@@ -1,0 +1,172 @@
+unit uEmail;
+
+interface
+
+uses
+  IdSMTP, IdSSLOpenSSL, IdMessage;
+
+type
+  TEmail = class
+  private
+    FSMTP: TIdSMTP;
+    FSSLSocket: TIdSSLIOHandlerSocketOpenSSL;
+    FIdMessage: TIdMessage;
+
+    FEmailRemetente: string;
+    FEmailDestinatrio: string;
+    FSenha: string;
+    FHost: string;
+    FPorta: Integer;
+    FAssunto: string;
+    { Private Declarations }
+  public
+    constructor Create(AEmailRemetente, AEmailDestinatario, ASenha, AHost, AAssunto: string; APorta: Integer);
+    procedure EnviarEmail();
+    { Public Declarations }
+  end;
+
+implementation
+
+uses
+  System.Classes, HKCripto, Vcl.ComCtrls, IdExplicitTLSClientServerBase;
+
+{ TEmail }
+
+constructor TEmail.Create(AEmailRemetente, AEmailDestinatario, ASenha, AHost, AAssunto: string;
+  APorta: Integer);
+begin
+  FEmailRemetente   := AEmailRemetente;
+  FEmailDestinatrio := AEmailDestinatario;
+  FSenha            := ASenha;
+  FHost             := AHost;
+  FAssunto          := FAssunto;
+  FPorta            := APorta;
+end;
+
+procedure TEmail.EnviarEmail;
+var
+  I : Integer;
+  LIdSMTP         : TIdSMTP;
+  LIdSSLIOHandler : TIdSSLIOHandlerSocketOpenSSL;
+  LIdMessage      : TIdMessage;
+  LTexto          : TStringList;
+  LS              : string;
+begin
+  LIdSMTP         := TIdSMTP.Create(nil);
+  LIdSSLIOHandler := TIdSSLIOHandlerSocketOpenSSL.Create();
+  LIdMessage      := TIdMessage.Create();
+
+  LIdSMTP.Disconnect;
+
+  LIdSMTP.Host     := FHost;
+  LIdSMTP.Port     := FPorta;
+  LIdSMTP.Username := FEmail;
+  LIdSMTP.Password := DecriptPassword(FSenha);
+
+  LIdSMTP.AuthType  := atDefault;
+
+  LIdSSLIOHandler.SSLOptions.Method := sslvTLSv1;
+  LIdSSLIOHandler.SSLOptions.Mode   := sslmClient;
+  LIdSMTP.IOHandler                 := LIdSSLIOHandler;
+  LIdSMTP.UseTLS                    := utUseImplicitTLS;
+
+  LIdMessage.Clear;
+  LIdMessage.Body.Clear;
+  LIdMessage.Recipients.Clear;
+  LIdMessage.From.Address              := FEmail;
+  LIdMessage.From.Name                 := FEmail;
+  LIdMessage.ReceiptRecipient.Address  := FEmail;
+  LIdMessage.Subject                   := FAssunto;
+  LIdMessage.ContentType               := 'multipart/mixed';
+
+  LS := '';
+
+  for i := 0 to sDestinatarios.Count - 1 do
+  begin
+    LS := LS + sDestinatarios[i];
+
+    if (i < sDestinatarios.Count-1) then
+     LS := LS + ';';
+  end;
+
+  LS := LS + ';' + sUserEmail;
+
+  LIdMessage.Recipients.EMailAddresses := LS;
+
+  if sCC <> nil then
+  begin
+    LS := '';
+    for i := 0 to sCC.Count - 1 do
+    begin
+      LS := LS + sCC[i];
+
+      if(i < sCC.Count-1) then
+        LS := LS + ';';
+    end;
+
+    LIdMessage.CCList.EMailAddresses := LS;
+  end;
+
+  if sCCo <> nil then
+  begin
+    LS := '';
+    for i := 0 to sCCo.Count - 1 do
+    begin
+      LS := LS + sCCo[i];
+
+      if(i < sCCo.Count-1) then
+        LS := LS + ';';
+    end;
+
+    LIdMessage.BccList.EMailAddresses := LS;
+  end;
+
+  if ((Trim(sFileCorpo) <> '') and FileExists(sFileCorpo)) or (Trim(sTextoCorpo.Text) <> '') then
+    with TIdText.Create(LIdMessage.MessageParts) do
+    begin
+      ContentType     := 'text/html';
+      ContentTransfer := '7bit';
+      for i := 0 to sTextoCorpo.Count - 1 do
+        Body.Append(sTextoCorpo[i] + '<br>');
+
+      if (Trim(sFileCorpo) <> '') and FileExists(sFileCorpo) then
+        begin
+          A_Texto := TStringList.Create;
+          A_Texto.LoadFromFile(sFileCorpo);
+          Body.Append(A_Texto.Text);
+          FreeAndNil(A_Texto);
+        end;
+    end;
+
+  for i := 0 to sAnexo.Count - 1 do
+  begin
+    if FileExists(TFileName(sAnexo[i])) then
+    begin
+      with TIdAttachmentFile.Create(LIdMessage.MessageParts, TFileName(sAnexo[i])) do
+      begin
+        ContentDisposition := 'attachment';
+        ContentTransfer    := 'base64';
+      end;
+    end;
+  end;
+
+  LIdSMTP.Disconnect;
+
+  try
+    LIdSMTP.Connect;
+
+    LIdSMTP.Authenticate;
+    LIdSMTP.Send(LIdMessage);
+    LIdSMTP.Disconnect;
+    Application.MessageBox('Mensagem enviada com sucesso', 'Aviso', MB_ICONINFORMATION);
+  except
+    Application.MessageBox('Houve um erro no envio da mensagem. Tente novamente!', 'Atenção', MB_ICONINFORMATION);
+    LIdSMTP.Disconnect;
+  end;
+
+  FreeAndNil(LIdMessage);
+  FreeAndNil(LIdSSLIOHandler);
+  FreeAndNil(LIdSMTP);
+end;
+
+end.

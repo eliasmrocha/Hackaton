@@ -1,0 +1,41 @@
+unit uConexao;
+
+interface
+
+uses
+  FireDAC.Comp.Client, System.SysUtils;
+
+type
+  TConexaoDB = class
+    private
+    FConnection: TFDConnection;
+    protected
+      procedure ConfigurarDB;
+    public
+      constructor Create;
+      destructor Destroy;
+    published
+      property Connection : TFDConnection read FConnection;
+  end;
+
+implementation
+
+{ TConexaoDB }
+
+procedure TConexaoDB.ConfigurarDB;
+begin
+
+end;
+
+constructor TConexaoDB.Create;
+begin
+  FConnection := TFDConnection.Create(nil);
+  ConfigurarDB;
+end;
+
+destructor TConexaoDB.Destroy;
+begin
+  FreeAndNil(FConnection);
+end;
+
+end.

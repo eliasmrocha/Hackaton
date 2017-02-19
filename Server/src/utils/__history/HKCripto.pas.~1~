@@ -1,0 +1,311 @@
+unit HKCripto;
+
+interface
+
+uses
+  Controls, SysUtils, StrUtils, HKConst_Alfabeto;
+
+type
+  TCripto = class
+  private
+      function GetCliente: String;
+      function GetDt_Implantacao: String;
+      procedure SetCliente(const Value: String);
+      procedure SetDt_Implantacao(const Value: String);
+      function GetDt_Fim: String;
+      function GetDt_Inicio: String;
+      procedure SetDt_Fim(const Value: String);
+      procedure SetDt_Inicio(const Value: String);
+    function GetSenha: String;
+    procedure SetSenha(const Value: String);
+    public
+      FCliente: String;
+      FDt_Implantacao: String;
+      FDt_Inicio: String;
+      FDt_Fim: String;
+      FSenha: String;
+      function Encripta_Senha(Cliente: String;
+        Dt_Implantacao, Dt_Inicio, Dt_Fim: String; Senha: String): String;
+      function Preenche_Zeros(I: Integer): String;
+      procedure Decripta_Senha(Key: String);
+
+      property Cliente: String read GetCliente write SetCliente;
+      property Dt_Implantacao: String read GetDt_Implantacao write SetDt_Implantacao;
+      property Dt_Inicio: String read GetDt_Inicio write SetDt_Inicio;
+      property Dt_Fim: String read GetDt_Fim write SetDt_Fim;
+      property Senha: String read GetSenha write SetSenha;
+      { Public declarations }
+    private
+      { Priovate declarations }
+  end;
+
+implementation
+
+{ TCripto }
+
+procedure TCripto.Decripta_Senha(Key: String);
+var
+  Alfa: String;
+  Tamanho, X, I: Integer;
+  Alfabeto, Alfa_Decr: String;
+begin
+  Tamanho := Length(Key);
+
+  Alfa := Copy(Key, (Tamanho - 2), 3);
+
+  case StrToInt(Alfa) of
+    01: Alfabeto := Alfabeto_01;
+    02: Alfabeto := Alfabeto_02;
+    03: Alfabeto := Alfabeto_03;
+    04: Alfabeto := Alfabeto_04;
+    05: Alfabeto := Alfabeto_05;
+    06: Alfabeto := Alfabeto_06;
+    07: Alfabeto := Alfabeto_07;
+    08: Alfabeto := Alfabeto_08;
+    09: Alfabeto := Alfabeto_09;
+    10: Alfabeto := Alfabeto_10;
+
+    11: Alfabeto := Alfabeto_11;
+    12: Alfabeto := Alfabeto_12;
+    13: Alfabeto := Alfabeto_13;
+    14: Alfabeto := Alfabeto_14;
+    15: Alfabeto := Alfabeto_15;
+    16: Alfabeto := Alfabeto_16;
+    17: Alfabeto := Alfabeto_17;
+    18: Alfabeto := Alfabeto_18;
+    19: Alfabeto := Alfabeto_19;
+    20: Alfabeto := Alfabeto_20;
+
+    21: Alfabeto := Alfabeto_21;
+    22: Alfabeto := Alfabeto_22;
+    23: Alfabeto := Alfabeto_23;
+    24: Alfabeto := Alfabeto_24;
+    25: Alfabeto := Alfabeto_25;
+    26: Alfabeto := Alfabeto_26;
+    27: Alfabeto := Alfabeto_27;
+    28: Alfabeto := Alfabeto_28;
+    29: Alfabeto := Alfabeto_29;
+    30: Alfabeto := Alfabeto_30;
+
+    31: Alfabeto := Alfabeto_31;
+    32: Alfabeto := Alfabeto_32;
+    33: Alfabeto := Alfabeto_33;
+    34: Alfabeto := Alfabeto_34;
+    35: Alfabeto := Alfabeto_35;
+    36: Alfabeto := Alfabeto_36;
+    37: Alfabeto := Alfabeto_37;
+    38: Alfabeto := Alfabeto_38;
+    39: Alfabeto := Alfabeto_39;
+    40: Alfabeto := Alfabeto_40;
+
+    41: Alfabeto := Alfabeto_41;
+    42: Alfabeto := Alfabeto_42;
+    43: Alfabeto := Alfabeto_43;
+    44: Alfabeto := Alfabeto_44;
+    45: Alfabeto := Alfabeto_45;
+    46: Alfabeto := Alfabeto_46;
+    47: Alfabeto := Alfabeto_47;
+    48: Alfabeto := Alfabeto_48;
+    49: Alfabeto := Alfabeto_49;
+    50: Alfabeto := Alfabeto_50;
+
+    51: Alfabeto := Alfabeto_51;
+    52: Alfabeto := Alfabeto_52;
+    53: Alfabeto := Alfabeto_53;
+    54: Alfabeto := Alfabeto_54;
+    55: Alfabeto := Alfabeto_55;
+    56: Alfabeto := Alfabeto_56;
+    57: Alfabeto := Alfabeto_57;
+    58: Alfabeto := Alfabeto_58;
+    59: Alfabeto := Alfabeto_59;
+    60: Alfabeto := Alfabeto_60;
+  end;
+
+
+  for X := 1 to Tamanho do
+  begin
+    for I := 1 to Length(Alfabeto_Co) do
+    begin
+      if Copy(Alfabeto, I, 1) = Copy(Key, X, 1) then
+        Alfa_Decr := Alfa_Decr + Copy(Alfabeto_Co, I, 1);
+    end;
+  end;   
+
+  Cliente := IntToStr(StrToInt(Copy(Alfa_Decr, 1, 3)));
+  Dt_Implantacao := Copy(Alfa_Decr, 4, 8);
+  Dt_Inicio := Copy(Alfa_Decr, 12, 8);
+  Dt_Fim := Copy(Alfa_Decr, 20, 8);
+  Alfa := Copy(Alfa_Decr, (Tamanho - 2), 3);
+  Senha := Copy(Alfa_Decr, 28, ((Tamanho - 2) - 28));
+end;
+
+function TCripto.Encripta_Senha(Cliente: String;
+  Dt_Implantacao, Dt_Inicio, Dt_Fim: String; Senha: String): String;
+var
+  Contador_01, Contador_02: Integer;
+  Contador_03, Contador_04: Integer;
+  Hora, Minuto, Segundo, MileSegundo: Word;
+  Val_Digitado, Alfabeto: String;
+  I, X, Tamanho, Contador_Final: Integer;
+begin
+  DecodeTime(Now, Hora, Minuto, Segundo, MileSegundo);
+
+  Contador_01 := Random(15);
+  Contador_02 := Random(15);
+  Contador_03 := Random(15);
+  Contador_04 := Random(15);
+
+  Contador_Final := (Contador_01 + Contador_02 +
+                     Contador_03 + Contador_04 + Segundo) div 2;
+
+  Val_Digitado := Preenche_Zeros(StrToInt(Cliente)) +
+                  Dt_Implantacao +
+                  Dt_Inicio +                  
+                  Dt_Fim +
+                  Senha;
+
+  Tamanho := Length(Val_Digitado);
+
+  case Contador_Final of
+    01: Alfabeto := Alfabeto_01;
+    02: Alfabeto := Alfabeto_02;
+    03: Alfabeto := Alfabeto_03;
+    04: Alfabeto := Alfabeto_04;
+    05: Alfabeto := Alfabeto_05;
+    06: Alfabeto := Alfabeto_06;
+    07: Alfabeto := Alfabeto_07;
+    08: Alfabeto := Alfabeto_08;
+    09: Alfabeto := Alfabeto_09;
+    10: Alfabeto := Alfabeto_10;
+
+    11: Alfabeto := Alfabeto_11;
+    12: Alfabeto := Alfabeto_12;
+    13: Alfabeto := Alfabeto_13;
+    14: Alfabeto := Alfabeto_14;
+    15: Alfabeto := Alfabeto_15;
+    16: Alfabeto := Alfabeto_16;
+    17: Alfabeto := Alfabeto_17;
+    18: Alfabeto := Alfabeto_18;
+    19: Alfabeto := Alfabeto_19;
+    20: Alfabeto := Alfabeto_20;
+
+    21: Alfabeto := Alfabeto_21;
+    22: Alfabeto := Alfabeto_22;
+    23: Alfabeto := Alfabeto_23;
+    24: Alfabeto := Alfabeto_24;
+    25: Alfabeto := Alfabeto_25;
+    26: Alfabeto := Alfabeto_26;
+    27: Alfabeto := Alfabeto_27;
+    28: Alfabeto := Alfabeto_28;
+    29: Alfabeto := Alfabeto_29;
+    30: Alfabeto := Alfabeto_30;
+
+    31: Alfabeto := Alfabeto_31;
+    32: Alfabeto := Alfabeto_32;
+    33: Alfabeto := Alfabeto_33;
+    34: Alfabeto := Alfabeto_34;
+    35: Alfabeto := Alfabeto_35;
+    36: Alfabeto := Alfabeto_36;
+    37: Alfabeto := Alfabeto_37;
+    38: Alfabeto := Alfabeto_38;
+    39: Alfabeto := Alfabeto_39;
+    40: Alfabeto := Alfabeto_40;
+
+    41: Alfabeto := Alfabeto_41;
+    42: Alfabeto := Alfabeto_42;
+    43: Alfabeto := Alfabeto_43;
+    44: Alfabeto := Alfabeto_44;
+    45: Alfabeto := Alfabeto_45;
+    46: Alfabeto := Alfabeto_46;
+    47: Alfabeto := Alfabeto_47;
+    48: Alfabeto := Alfabeto_48;
+    49: Alfabeto := Alfabeto_49;
+    50: Alfabeto := Alfabeto_50;
+
+    51: Alfabeto := Alfabeto_51;
+    52: Alfabeto := Alfabeto_52;
+    53: Alfabeto := Alfabeto_53;
+    54: Alfabeto := Alfabeto_54;
+    55: Alfabeto := Alfabeto_55;
+    56: Alfabeto := Alfabeto_56;
+    57: Alfabeto := Alfabeto_57;
+    58: Alfabeto := Alfabeto_58;
+    59: Alfabeto := Alfabeto_59;
+    60: Alfabeto := Alfabeto_60;
+  end;
+
+  for X := 1 to Tamanho do
+  begin
+    for I := 1 to Length(Alfabeto_Co) do
+    begin
+      if Copy(Alfabeto_Co, I, 1) = Copy(Val_Digitado, X, 1) then
+        Result := Result + Copy(Alfabeto, I, 1);
+    end;
+  end;
+
+  Result := Result + Preenche_Zeros(Contador_Final);
+end;
+
+function TCripto.GetCliente: String;
+begin
+  Result := FCliente;
+end;
+
+function TCripto.GetDt_Fim: String;
+begin
+  Result := FDt_Fim;
+end;
+
+function TCripto.GetDt_Implantacao: String;
+begin
+  Result := FDt_Implantacao;
+end;
+
+function TCripto.GetDt_Inicio: String;
+begin
+  Result := FDt_Inicio;
+end;
+
+function TCripto.GetSenha: String;
+begin
+  Result := FSenha;
+end;
+
+function TCripto.Preenche_Zeros(I: Integer): String;
+begin
+  if (I >= 0) and (I <= 9) then
+    Result := '00' + IntToStr(I);
+
+  if (I >= 10) and (I <= 99) then
+    Result := '0' + IntToStr(I);
+
+  if (I >= 100) and (I <= 999) then
+    Result := IntToStr(I);
+end;
+
+procedure TCripto.SetCliente(const Value: String);
+begin
+  FCliente := Value;
+end;
+
+procedure TCripto.SetDt_Fim(const Value: String);
+begin
+  FDt_Fim := Value;
+end;
+
+procedure TCripto.SetDt_Implantacao(const Value: String);
+begin
+  FDt_Implantacao := Value;
+end;
+
+procedure TCripto.SetDt_Inicio(const Value: String);
+begin
+  FDt_Inicio := Value;
+end;
+
+procedure TCripto.SetSenha(const Value: String);
+begin
+  FSenha := Value;
+end;
+
+end.

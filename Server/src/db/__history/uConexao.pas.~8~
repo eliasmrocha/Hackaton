@@ -1,0 +1,64 @@
+unit uConexao;
+
+interface
+
+uses
+  FireDAC.Comp.Client, System.SysUtils, System.IniFiles, Vcl.Forms;
+
+type
+  TConexaoDB = class
+    private
+    FConnection: TFDConnection;
+    protected
+      procedure ConfigurarDB;
+    public
+      constructor Create();
+      destructor Destroy();
+    published
+      property Connection : TFDConnection read FConnection;
+  end;
+
+implementation
+
+uses
+  HKCripto;
+
+{ TConexaoDB }
+
+procedure TConexaoDB.ConfigurarDB;
+var
+  LIniFile: TIniFile;
+begin
+  // Passa os parametros de Conexão e Conecta ao Banco de Dados
+  LIniFile := TIniFile.Create(ExtractFileDir(Application.ExeName) + '\CS Server.ini');
+  try
+    try
+      FConnection.LoginPrompt := False;
+      FConnection.Params.Clear;
+      FConnection.Params.Values['Database']  := LIniFile.ReadString('DATABASE', 'Database', 'XE');
+      FConnection.Params.Values['User_Name'] := LIniFile.ReadString('DATABASE', 'user'    , '');
+      FConnection.Params.Values['Password']  :=  LIniFile.ReadString('DATABASE', 'pwd'     , '');
+      FConnection.Params.Values['DriverID']  := 'Ora';
+
+      FConnection.Connected := True;
+    except
+      raise Exception.Create('Problema ao conectar ao servidor de banco de dados.');
+
+    end;
+  finally
+    FreeAndNil(LIniFile);
+  end;
+end;
+
+constructor TConexaoDB.Create;
+begin
+  FConnection := TFDConnection.Create(nil);
+  ConfigurarDB;
+end;
+
+destructor TConexaoDB.Destroy;
+begin
+  FreeAndNil(FConnection);
+end;
+
+end.

@@ -1,0 +1,31 @@
+program CSServer;
+{$APPTYPE GUI}
+
+uses
+  Vcl.Forms,
+  Web.WebReq,
+  IdHTTPWebBrokerBridge,
+  uDashBoard in 'uDashBoard.pas' {DashBoard},
+  uService in 'uService.pas',
+  uWebModule in 'uWebModule.pas' {WebMod: TWebModule},
+  uMetadados in 'uMetadados.pas',
+  uCliente in 'uCliente.pas',
+  HKConst_Alfabeto in 'src\utils\HKConst_Alfabeto.pas',
+  HKCripto in 'src\utils\HKCripto.pas',
+  uUtils in 'src\utils\uUtils.pas',
+  udmConexao in 'db\udmConexao.pas' {dmConexao: TDataModule},
+  uUsuario in 'src\classes\uUsuario.pas',
+  uVenda in 'src\classes\uVenda.pas',
+  uRecords in 'src\utils\uRecords.pas',
+  uEmail in 'src\utils\uEmail.pas';
+
+{$R *.res}
+
+begin
+  if WebRequestHandler <> nil then
+    WebRequestHandler.WebModuleClass := WebModuleClass;
+  Application.Initialize;
+  Application.CreateForm(TdmConexao, dmConexao);
+  Application.CreateForm(TDashBoard, DashBoard);
+  Application.Run;
+end.
