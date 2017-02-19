@@ -1,0 +1,107 @@
+unit uVenda;
+
+interface
+
+uses
+  System.JSON, System.SysUtils, uUsuario, FireDAC.Comp.Client, uEstabelecimento;
+
+type
+  TVenda = class
+  private
+    FConexao: TFDConnection;
+    FIdCliente: string;
+    FEstabelecimento: TEstabelecimento;
+
+    procedure TrataUsuario;
+    procedure TrataVenda;
+    { Private Declarations }
+  public
+    //Métodos públicos
+    constructor Create(AConexao: TFDConnection);
+    destructor Destroy; override;
+
+    procedure CadastraVenda;
+
+    procedure Assign(AJSON : TJSONObject);
+
+    //Propriedades
+    property IdCliente            : string read FIdCliente            write FIdCliente;
+    property Estabelecimento: TEstabelecimento read FEstabelecimento write FEstabelecimento;
+    { Public Declarations }
+  end;
+
+implementation
+
+{ TVenda }
+
+procedure TVenda.Assign(AJSON: TJSONObject);
+begin
+  FIdCliente            := AJSON.GetValue('id_cliente').Value;
+  FEstabelecimento.CNPJ := AJSON.GetValue('cnpj').Value;
+end;
+
+procedure TVenda.TrataUsuario;
+var
+  LUsuario: TUsuario;
+begin
+  LUsuario := TUsuario.Create(FConexao);
+  try
+    //Caso tenha um @ na mensagem, o email foi preenchido
+    if Pos('@', FIdCliente) <> 0 then
+    begin
+      LUsuario.EMail := FIdCliente;
+      LUsuario.LocalizaUsuarioPorEmail(FIdCliente);
+    end;
+  finally
+    LUsuario.Free;
+  end;
+end;
+
+procedure TVenda.TrataVenda;
+var
+  LQuery : TFDQuery;
+begin
+  FEstabelecimento.LocalizaEstabelecimentoPorCNPJ(FEstabelecimento.CNPJ);
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('insert into venda (');
+      LQuery.SQL.Add('  id      ');
+      LQuery.SQL.Add(') values (');
+      LQuery.SQL.Add('  :id     ');
+      LQuery.SQL.Add(')');
+
+      LQuery.ParamByName('id').AsInteger := StrToInt(FIdCliente);
+      LQuery.ExecSQL();
+    except
+      raise Exception.Create('ERRO AO CADASTRAR VENDA');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
+end;
+
+procedure TVenda.CadastraVenda;
+begin
+  TrataUsuario;
+  TrataVenda;
+end;
+
+constructor TVenda.Create(AConexao: TFDConnection);
+begin
+  FConexao := AConexao;
+
+  FEstabelecimento := TEstabelecimento.Create(AConexao);
+end;
+
+destructor TVenda.Destroy;
+begin
+  FEstabelecimento.Free;
+
+  inherited;
+end;
+
+end.

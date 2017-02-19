@@ -1,0 +1,65 @@
+unit uSegmento;
+
+interface
+
+uses
+  FireDAC.Comp.Client;
+
+type
+  TSegmento = class
+  private
+    FId: Integer;
+    FNome: string;
+    { Private Declarations }
+  public
+    //Métodos públicos
+    procedure LocalizaSegmento(AId: Integer);
+
+    //Propriedades
+    property Id  : Integer read FId   write FId;
+    property Nome: string  read FNome write FNome;
+    { Public Declarations }
+  end;
+
+implementation
+
+{ TSegmento }
+
+procedure TSegmento.LocalizaSegmento(AId: Integer);
+var
+  LQuery : TFDQuery;
+begin
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT         ');
+      LQuery.SQL.Add('  email,       ');
+      LQuery.SQL.Add('  senha,       ');
+      LQuery.SQL.Add('  host,        ');
+      LQuery.SQL.Add('  porta,       ');
+      LQuery.SQL.Add('  assunto      ');
+      LQuery.SQL.Add('FROM           ');
+      LQuery.SQL.Add('  email_config ');
+      LQuery.Open();
+
+      //Não existe registro
+      if LQuery.RecordCount <> 0 then
+      begin
+        FConfigEmail   := LQuery.FieldByName('email').AsString;
+        FConfigSenha   := LQuery.FieldByName('senha').AsString;
+        FConfigPorta   := LQuery.FieldByName('porta').AsInteger;
+        FConfigHost    := LQuery.FieldByName('host').AsString;
+        FConfigAssunto := LQuery.FieldByName('assunto').AsString;
+      end;
+    except
+      raise Exception.Create('ERRO AO GRAVAR USUARIO');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
+end;
+
+end.

@@ -1,0 +1,23 @@
+unit uSegmento;
+
+interface
+
+type
+  TSegmento = class
+  private
+    FId: Integer;
+    FNome: string;
+    { Private Declarations }
+  public
+    //Métodos públicos
+    procedure LocalifaSegmento(AId: Integer);
+
+    //Propriedades
+    property Id  : Integer read FId   write FId;
+    property Nome: string  read FNome write FNome;
+    { Public Declarations }
+  end;
+
+implementation
+
+end.
