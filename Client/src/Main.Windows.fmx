@@ -1,0 +1,40 @@
+inherited GridViewForm_Windows: TGridViewForm_Windows
+  DesignerMasterStyle = 0
+  inherited MainLayout: TLayout
+    inherited HeaderLayout: TLayout
+      inherited Image1: TImage
+        MultiResBitmap.Height = 108
+        MultiResBitmap.Width = 150
+        MultiResBitmap.TransparentColor = 16777215
+        Position.X = -80.000000000000000000
+        Position.Y = 8.000000000000000000
+      end
+    end
+    inherited HorzScrollBox1: THorzScrollBox
+      Viewport.Width = 1110.000000000000000000
+      Viewport.Height = 860.000000000000000000
+      inherited GroupLayout1: TLayout
+        inherited ListBox1: TListBox
+          Viewport.Width = 533.000000000000000000
+          Viewport.Height = 161.000000000000000000
+        end
+        inherited ListBox2: TListBox
+          Viewport.Width = 533.000000000000000000
+          Viewport.Height = 161.000000000000000000
+        end
+        inherited Label2: TLabel
+          Position.Y = 32.000000000000000000
+        end
+        inherited ListBox3: TListBox
+          Position.Y = 225.000000000000000000
+          Viewport.Width = 533.000000000000000000
+          Viewport.Height = 161.000000000000000000
+        end
+        inherited ListBox4: TListBox
+          Viewport.Width = 533.000000000000000000
+          Viewport.Height = 161.000000000000000000
+        end
+      end
+    end
+  end
+end

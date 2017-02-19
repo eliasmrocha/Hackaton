@@ -1,0 +1,17 @@
+program Client;
+
+uses
+  FMX.Forms,
+  Main in 'Main.pas' {GridViewForm},
+  Amigos in 'Amigos.pas' {SplitPaneForm};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TGridViewForm, GridViewForm);
+  Application.CreateForm(TSplitPaneForm, SplitPaneForm);
+  Application.RegisterFormFamily('Main', [TGridViewForm]);
+  Application.RegisterFormFamily('SplitPane', [TSplitPaneForm]);
+  Application.Run;
+end.
