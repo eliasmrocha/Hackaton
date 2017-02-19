@@ -1,8 +1,9 @@
 object Frm_Login: TFrm_Login
   Left = 0
   Top = 0
-  Caption = 'Frm_Login'
-  ClientHeight = 157
+  BorderIcons = [biSystemMenu]
+  Caption = 'Login'
+  ClientHeight = 158
   ClientWidth = 238
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +12,7 @@ object Frm_Login: TFrm_Login
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel

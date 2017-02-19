@@ -921,7 +921,6 @@ object Form1: TForm1
             52940294A501FFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -1149,7 +1148,6 @@ object Form1: TForm1
             4514500145145007FFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -3459,7 +3457,6 @@ object Form1: TForm1
             000000000000000000000000000FFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -5477,7 +5474,6 @@ object Form1: TForm1
             D9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -6362,7 +6358,6 @@ object Form1: TForm1
             6186361792FB77E0E586915AD6AC335E8AFA838A119C63AFEFCCFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -7537,7 +7532,6 @@ object Form1: TForm1
             7D993F24CA57CC5A8C774F050F4CB295040333E558F8C1C4341AC475A9FFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -7860,7 +7854,7 @@ object Form1: TForm1
             19CE39A28AAB6865CCF9EC62CA3E6228A28A433FFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
+          OnClick = Image11Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -8910,7 +8904,7 @@ object Form1: TForm1
             2020202020202020202020}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
+          OnClick = Image12Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -9201,7 +9195,7 @@ object Form1: TForm1
             DE0061835360639A28A118113C7CEE4E0D14514C0FFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
+          OnClick = Image13Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -9488,7 +9482,7 @@ object Form1: TForm1
             C628A28AAB896A7FFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
+          OnClick = Image14Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -11859,7 +11853,7 @@ object Form1: TForm1
             F69E5396CB78A30324386DE07FFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
+          OnClick = Image15Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -14264,8 +14258,8 @@ object Form1: TForm1
             E553964F02220EE26138FF00FFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
-          ExplicitLeft = -2
+          OnClick = Image16Click
+          ExplicitLeft = 1
           ExplicitTop = -2
         end
       end
@@ -17456,7 +17450,7 @@ object Form1: TForm1
             001BBFE01FA5E7C77EE379BF73CBFC76FDCBDAFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
+          OnClick = Image17Click
           ExplicitTop = 8
           ExplicitWidth = 121
           ExplicitHeight = 121
@@ -20435,7 +20429,7 @@ object Form1: TForm1
             7F41690CC6CF2AEFD4AFAFFFD9}
           Proportional = True
           Stretch = True
-          OnClick = Image2Click
+          OnClick = Image18Click
           ExplicitLeft = -2
           ExplicitTop = -2
         end
@@ -23098,7 +23092,6 @@ object Form1: TForm1
       Proportional = True
       Stretch = True
       Transparent = True
-      OnClick = Image2Click
     end
     object RichEdit1: TRichEdit
       Left = 6
@@ -23112,7 +23105,7 @@ object Form1: TForm1
       Color = clRed
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -19
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
@@ -23133,12 +23126,12 @@ object Form1: TForm1
       Color = clRed
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -19
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
       ReadOnly = True
-      ScrollBars = ssBoth
+      ScrollBars = ssVertical
       TabOrder = 1
       Zoom = 100
     end
