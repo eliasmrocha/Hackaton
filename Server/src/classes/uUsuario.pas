@@ -3,7 +3,7 @@ unit uUsuario;
 interface
 
 uses
-  FireDAC.Comp.Client, System.SysUtils, uCliente;
+  FireDAC.Comp.Client, System.SysUtils, uCliente, Data.DB, System.JSON;
 
 type
   TUsuario = class(TCliente)
@@ -21,11 +21,21 @@ type
 
     procedure EnviaEmail;
     procedure CarregaConfigEmail;
+    procedure AtualizaCliente;
+    procedure AtualizaUsuario;
     { Private Declarations }
   public
     //Métodos públicos
     procedure CadastraUsuario;
-    procedure LocalizaUsuarioPorEmail(AEmail: string);
+    procedure AlteraUsuario;
+    procedure LocalizaUsuarioPorEmail(AEmail: string; APorVenda: Boolean = True); overload;
+    function LocalizaUsuarioPorEmail(AEmail, ASenha: string): TDataSet; overload;
+    function RetornaPublicacoesProprias(AId: Integer): TDataSet;
+    function RetornaPublicacoesAmigos(AId: Integer): TDataSet;
+    function RetornaSugestoesAmigos(AId: Integer): TDataSet;
+    function RetornaUltimasCompras(AId: Integer): TDataSet;
+
+    procedure Assign(AJSON : TJSONObject);
 
     //Propriedades
     property CPF           : string     read FCPF             write FCPF;
@@ -38,9 +48,72 @@ type
 implementation
 
 uses
-  uEmail;
+  uEmail, HKCripto;
 
 { TUsuario }
+
+procedure TUsuario.AlteraUsuario;
+begin
+  AtualizaCliente;
+  AtualizaUsuario;
+end;
+
+procedure TUsuario.Assign(AJSON: TJSONObject);
+begin
+  FNome           := AJSON.GetValue('Cliente_Nome'          ).Value;
+  FSenha          := AJSON.GetValue('Cliente_Senha'         ).Value;
+  FCpf            := AJSON.GetValue('Cliente_cpf'           ).Value;
+  FEmail          := AJSON.GetValue('Cliente_Email'         ).Value;
+  FCep            := AJSON.GetValue('Cliente_cep'           ).Value;
+  FEndereco       := AJSON.GetValue('Cliente_rua'           ).Value;
+  FBairro         := AJSON.GetValue('Cliente_bairro'        ).Value;
+  FNumero         := AJSON.GetValue('Cliente_numero'        ).Value;
+end;
+
+procedure TUsuario.AtualizaCliente;
+var
+  LQuery : TFDQuery;
+  LDataSet: TDataSet;
+begin
+  LDataSet := TDataSet.Create(FConexao);
+  try
+    LDataSet := LocalizaUsuarioPorEmail(FEMail, FSenha);
+
+    LQuery := TFDQuery.Create(FConexao);
+    try
+      try
+        LQuery.Connection := FConexao;
+
+        LQuery.SQL.Clear;
+        LQuery.SQL.Add('UPDATE cliente ');
+        LQuery.SQL.Add('SET ');
+        LQuery.SQL.Add('  nome = :nome, ');
+        LQuery.SQL.Add('  email = :email, ');
+        LQuery.SQL.Add('  endereco = :endereco, ');
+        LQuery.SQL.Add('  complemento = :complemento, ');
+        LQuery.SQL.Add('  numero = :numero, ');
+        LQuery.SQL.Add('  bairro = :bairro, ');
+        LQuery.SQL.Add('  cep = :cep ');
+        LQuery.SQL.Add('WHERE ');
+        LQuery.SQL.Add('  id =:id ');
+
+        LQuery.ParamByName('id').AsInteger := FId;
+        LQuery.ExecSQL();
+      except
+        raise Exception.Create('ERRO AO ATUALIZAR O CLIENTE');
+      end;
+    finally
+      FreeAndNil(LQuery);
+    end;
+  finally
+    FreeAndNil(LDataSet);
+  end;
+end;
+
+procedure TUsuario.AtualizaUsuario;
+begin
+
+end;
 
 procedure TUsuario.CadastraUsuario;
 var
@@ -122,7 +195,227 @@ begin
   end;
 end;
 
-procedure TUsuario.LocalizaUsuarioPorEmail(AEmail: string);
+function TUsuario.LocalizaUsuarioPorEmail(AEmail, ASenha: string): TDataSet;
+var
+  LQuery : TFDQuery;
+begin
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT                ');
+      LQuery.SQL.Add('  c.id,               ');
+      LQuery.SQL.Add('  c.nome,             ');
+      LQuery.SQL.Add('  c.email,            ');
+      LQuery.SQL.Add('  u.senha,            ');
+      LQuery.SQL.Add('  u.sexo              ');
+      LQuery.SQL.Add('FROM                  ');
+      LQuery.SQL.Add('  cliente c           ');
+      LQuery.SQL.Add('  INNER JOIN usuario u ON (c.id = u.id) ');
+      LQuery.SQL.Add('WHERE                 ');
+      LQuery.SQL.Add('  c.email =:email     ');
+
+      LQuery.ParamByName('email').AsString := AEmail;
+      LQuery.Open();
+
+      if (LQuery.RecordCount <> 0) then
+      begin
+        if DecriptPassword(ASenha) = DecriptPassword(LQuery.FieldByName('senha').AsString) then
+        begin
+          FId    := LQuery.FieldByName('id').AsInteger;
+          FNome  := LQuery.FieldByName('nome').AsString;
+          FEMail := LQuery.FieldByName('email').AsString;
+          FSexo  := LQuery.FieldByName('Sexo').AsString;
+
+          Result := LQuery;
+        end
+        else
+          raise Exception.Create('USUARIO NÃO LOCALIZADO. VERIFICAR EMAIL E/OU SENHA');
+      end
+      else
+        raise Exception.Create('USUARIO NÃO LOCALIZADO. VERIFICAR EMAIL E/OU SENHA');
+    except
+      on E: Exception do
+        raise Exception.Create(E.Message);
+    end;
+  finally
+    //FreeAndNil(LQuery);
+  end;
+end;
+
+function TUsuario.RetornaPublicacoesAmigos(AId: Integer): TDataSet;
+var
+  LQuery : TFDQuery;
+begin
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT ');
+      LQuery.SQL.Add('  ua.usuario_id,');
+      LQuery.SQL.Add('  c.nome,');
+      LQuery.SQL.Add('  (SELECT');
+      LQuery.SQL.Add('      Max(up1.data)');
+      LQuery.SQL.Add('    FROM');
+      LQuery.SQL.Add('      usuario_publicacao up1');
+      LQuery.SQL.Add('    WHERE');
+      LQuery.SQL.Add('      up1.usuario_id = ua.amigo_id) AS dat_publicacao,');
+      LQuery.SQL.Add('  (SELECT');
+      LQuery.SQL.Add('     up.texto');
+      LQuery.SQL.Add('   FROM');
+      LQuery.SQL.Add('     usuario_publicacao up');
+      LQuery.SQL.Add('   WHERE');
+      LQuery.SQL.Add('      up.usuario_id = ua.amigo_id');
+      LQuery.SQL.Add('      AND up.data = (SELECT Max(up1.data) FROM usuario_publicacao up1 WHERE up1.usuario_id = ua.amigo_id)');
+      LQuery.SQL.Add('  ) AS publicacao');
+      LQuery.SQL.Add('FROM');
+      LQuery.SQL.Add('  usuario_amigo ua');
+      LQuery.SQL.Add('  INNER JOIN usuario u ON (ua.amigo_id = u.id)');
+      LQuery.SQL.Add('  INNER JOIN cliente c ON (c.id = u.id)');
+      LQuery.SQL.Add('WHERE');
+      LQuery.SQL.Add('  ua.usuario_id = :id');
+      LQuery.SQL.Add('ORDER BY');
+      LQuery.SQL.Add('  c.nome');
+
+      LQuery.ParamByName('id').AsInteger := AId;
+      LQuery.Open();
+
+      if (LQuery.RecordCount <> 0) then
+        Result := LQuery;
+    except
+      on E: Exception do
+        raise Exception.Create('ERRO AO CONSULTAR AS PUBLICAÇÕES DOS AMIGOS DO USUARIO');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
+end;
+
+function TUsuario.RetornaPublicacoesProprias(AId: Integer): TDataSet;
+var
+  LQuery : TFDQuery;
+begin
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT                  ');
+      LQuery.SQL.Add('  up.data,              ');
+      LQuery.SQL.Add('  up.texto              ');
+      LQuery.SQL.Add('FROM                    ');
+      LQuery.SQL.Add('  usuario_publicacao up ');
+      LQuery.SQL.Add('WHERE                   ');
+      LQuery.SQL.Add('  up.usuario_id = :id   ');
+      LQuery.SQL.Add('  and ROWNUM <= 4       ');
+
+      LQuery.ParamByName('id').AsInteger := AId;
+      LQuery.Open();
+
+      Result := LQuery;
+    except
+      on E: Exception do
+        raise Exception.Create('ERRO AO CONSULTAR AS PUBLICAÇÕES DO USUARIO');
+    end;
+  finally
+    //FreeAndNil(LQuery);
+  end;
+end;
+
+function TUsuario.RetornaSugestoesAmigos(AId: Integer): TDataSet;
+var
+  LQuery : TFDQuery;
+begin
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT ');
+      LQuery.SQL.Add('  usuario_id, ');
+      LQuery.SQL.Add('  nome ');
+      LQuery.SQL.Add('FROM ');
+      LQuery.SQL.Add('( ');
+      LQuery.SQL.Add('  SELECT ');
+      LQuery.SQL.Add('    DISTINCT ');
+      LQuery.SQL.Add('    usuario_id, ');
+      LQuery.SQL.Add('    c.nome ');
+      LQuery.SQL.Add('  FROM ');
+      LQuery.SQL.Add('    venda v ');
+      LQuery.SQL.Add('    INNER JOIN usuario u ON (v.usuario_id = u.id) ');
+      LQuery.SQL.Add('    INNER JOIN cliente c ON (u.id = c.id) ');
+      LQuery.SQL.Add('  WHERE ');
+      LQuery.SQL.Add('    estabelecimento_id IN ( SELECT ');
+      LQuery.SQL.Add('                              estabelecimento_id ');
+      LQuery.SQL.Add('                            FROM ');
+      LQuery.SQL.Add('                              venda v ');
+      LQuery.SQL.Add('                            WHERE ');
+      LQuery.SQL.Add('                              v.usuario_id = :id1) ');
+      LQuery.SQL.Add('    AND usuario_id <> :id2 ');
+      LQuery.SQL.Add(') AUX ');
+      LQuery.SQL.Add('WHERE ');
+      LQuery.SQL.Add('  ROWNUM <= 2 ');
+      LQuery.SQL.Add('ORDER BY ');
+      LQuery.SQL.Add('  nome ');
+
+      LQuery.ParamByName('id1').AsInteger := AId;
+      LQuery.ParamByName('id2').AsInteger := AId;
+      LQuery.Open();
+
+      if (LQuery.RecordCount <> 0) then
+        Result := LQuery;
+    except
+      on E: Exception do
+        raise Exception.Create('ERRO AO CONSULTAR AS SUGESTÕES DOS AMIGOS DO USUARIO');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
+end;
+
+function TUsuario.RetornaUltimasCompras(AId: Integer): TDataSet;
+var
+  LQuery : TFDQuery;
+begin
+  LQuery := TFDQuery.Create(FConexao);
+  try
+    try
+      LQuery.Connection := FConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT ');
+      LQuery.SQL.Add('  v.estabelecimento_id, ');
+      LQuery.SQL.Add('  c.nome ');
+      LQuery.SQL.Add('FROM ');
+      LQuery.SQL.Add('  venda v ');
+      LQuery.SQL.Add('  INNER JOIN estabelecimento e ON (v.estabelecimento_id = e.id) ');
+      LQuery.SQL.Add('  INNER JOIN cliente c ON (e.id = c.id) ');
+      LQuery.SQL.Add('WHERE ');
+      LQuery.SQL.Add('  usuario_id = :id AND ');
+      LQuery.SQL.Add('  ROWNUM <= 2 ');
+
+      LQuery.ParamByName('id').AsInteger := AId;
+      LQuery.Open();
+
+      if (LQuery.RecordCount <> 0) then
+        Result := LQuery;
+    except
+      on E: Exception do
+        raise Exception.Create('ERRO AO CONSULTAR AS COMPRAS DO USUARIO');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
+end;
+
+procedure TUsuario.LocalizaUsuarioPorEmail(AEmail: string;
+  APorVenda: Boolean = True);
 var
   LQuery : TFDQuery;
   LEmail: TEmail;
@@ -158,10 +451,13 @@ begin
       FEMail := AEmail;
 
       //Não existe registro
-      if LQuery.RecordCount = 0 then
+      if (LQuery.RecordCount = 0) then
       begin
-        CadastraUsuario;
-        EnviaEmail;
+        if APorVenda then
+        begin
+          CadastraUsuario;
+          EnviaEmail;
+        end;
       end
       else
       begin

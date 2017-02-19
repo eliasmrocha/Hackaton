@@ -1,0 +1,176 @@
+unit uService;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth,
+  Data.DB, DBXJSON, System.JSON, uVenda, uUsuario, Data.DBXPlatform;
+
+type
+{$METHODINFO ON}
+  Service = class(TComponent)
+  private
+  public
+    function updateVenda(AJSONVenda : TJSONObject) : String;
+    function updateUsuario(AJSONVenda : TJSONObject) : String;
+
+    function RetornaDadosUsuario(AEmail, ASenha: string) : TJSONObject;
+    function PublicacoesProprias(AId: Integer) : TJSONArray;
+    function PublicacoesAmigos(AId: Integer) : TJSONArray;
+    function SugestoesAmigos(AId: Integer) : TJSONArray;
+    function UltimasCompras(AId: Integer) : TJSONArray;
+  end;
+{$METHODINFO OFF}
+
+  function DataSetToJSON(ADataSet : TDataset) : TJSONArray;
+  function UniqueDataSetToJSON(ADataSet : TDataset) : TJSONObject;
+
+implementation
+
+uses
+  udmConexao;
+
+
+{ Service }
+
+function Service.PublicacoesAmigos(AId: Integer): TJSONArray;
+var
+  LUsuario : TUsuario;
+begin
+  LUsuario := TUsuario.Create(dmConexao.fdConexao);
+  try
+    Result := DataSetToJSON(LUsuario.RetornaPublicacoesAmigos(AId));
+  finally
+    LUsuario.Free;
+  end;
+end;
+
+function Service.PublicacoesProprias(AId: Integer): TJSONArray;
+var
+  LUsuario : TUsuario;
+begin
+  LUsuario := TUsuario.Create(dmConexao.fdConexao);
+  try
+    Result := DataSetToJSON(LUsuario.RetornaPublicacoesProprias(AId));
+  finally
+    LUsuario.Free;
+  end;
+end;
+
+function Service.RetornaDadosUsuario(AEmail, ASenha: string): TJSONObject;
+var
+  LUsuario : TUsuario;
+begin
+  LUsuario := TUsuario.Create(dmConexao.fdConexao);
+  try
+    Result := UniqueDataSetToJSON(LUsuario.LocalizaUsuarioPorEmail(AEmail, ASenha));
+  finally
+    LUsuario.Free;
+  end;
+end;
+
+function Service.SugestoesAmigos(AId: Integer): TJSONArray;
+var
+  LUsuario : TUsuario;
+begin
+  LUsuario := TUsuario.Create(dmConexao.fdConexao);
+  try
+    Result := DataSetToJSON(LUsuario.RetornaSugestoesAmigos(AId));
+  finally
+    LUsuario.Free;
+  end;
+end;
+
+function Service.UltimasCompras(AId: Integer): TJSONArray;
+var
+  LUsuario : TUsuario;
+begin
+  LUsuario := TUsuario.Create(dmConexao.fdConexao);
+  try
+    Result := DataSetToJSON(LUsuario.RetornaUltimasCompras(AId));
+  finally
+    LUsuario.Free;
+  end;
+end;
+
+function Service.updateUsuario(AJSONVenda: TJSONObject): String;
+var
+  LUsuario : TUsuario;
+begin
+  LUsuario := TUsuario.Create(dmConexao.fdConexao);
+  try
+    try
+      LUsuario.Assign(AJSONVenda);
+      //LUsuario.CadastraVenda;
+
+      Result := 'VENDA REGISTRADA';
+    except
+      on E:Exception DO
+        Result := E.Message;
+    end;
+  finally
+    LUsuario.Free;
+  end;
+end;
+
+function Service.updateVenda(AJSONVenda: TJSONObject): String;
+var
+  LVenda : TVenda;
+begin
+  LVenda := TVenda.Create(dmConexao.fdConexao);
+  try
+    try
+      LVenda.Assign(AJSONVenda);
+      LVenda.CadastraVenda;
+
+      Result := 'VENDA REGISTRADA';
+    except
+      on E:Exception DO
+        Result := E.Message;
+    end;
+  finally
+    LVenda.Free;
+  end;
+end;
+
+function DataSetToJSON(ADataSet : TDataset) : TJSONArray;
+Var
+  LJObject  : TJSONObject;
+  i        : Integer;
+begin
+  Result := TJSONArray.Create;
+  ADataSet.First;
+  while Not(ADataSet.Eof) do
+  begin
+    LJObject := TJSONObject.Create;
+    for i := 0 to ADataSet.FieldCount-1 do
+      LJObject.AddPair(ADataSet.Fields[i].FieldName, ADataSet.Fields[i].AsString);
+
+    Result.Add(LJObject.ToString);
+    ADataSet.Next;
+  end;
+
+//  for I := 0 to Result.Count - 1 do
+//  begin
+//    GetInvocationMetadata().ResponseCode    := 200;
+//    GetInvocationMetadata().ResponseContent := Result. LJObject.ToString;
+//  end;
+
+end;
+
+function UniqueDataSetToJSON(ADataSet : TDataset) : TJSONObject;
+var
+  I : Integer;
+begin
+  Result := TJSONObject.Create;
+
+  Result := TJSONObject.Create;
+  for i := 0 to ADataSet.FieldCount-1 do
+    Result.AddPair(ADataSet.Fields[i].FieldName, TJSONString.Create(ADataSet.Fields[i].AsString));
+
+  GetInvocationMetadata().ResponseCode    := 200;
+  GetInvocationMetadata().ResponseContent := Result.ToString;
+end;
+
+end.
+

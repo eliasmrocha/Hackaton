@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2016/04/18 22:33:29.000.558,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\ServerFunctionExecutor.js</Transaction>
-    <Transaction>2016/04/18 22:33:29.000.416,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\ServerMethodsUnit1.pas</Transaction>
     <Transaction>2016/04/18 22:33:29.000.569,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\CallbackFramework.js</Transaction>
-    <Transaction>2016/04/18 22:33:29.000.584,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\json2-min.js</Transaction>
+    <Transaction>2016/04/18 22:33:29.000.416,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\ServerMethodsUnit1.pas</Transaction>
     <Transaction>2016/04/18 22:33:29.000.501,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\WebModuleUnit1.pas</Transaction>
+    <Transaction>2016/04/18 22:33:29.000.279,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\FormUnit1.pas</Transaction>
+    <Transaction>2016/04/18 22:33:29.000.584,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\json2-min.js</Transaction>
     <Transaction>2016/04/18 22:33:29.000.576,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\ServerFunctions.js</Transaction>
     <Transaction>2016/04/18 22:33:29.000.580,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\base64-min.js</Transaction>
-    <Transaction>2016/04/18 22:33:29.000.595,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\CallbackFramework-min.js</Transaction>
-    <Transaction>2016/04/18 22:33:29.000.279,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\FormUnit1.pas</Transaction>
-    <Transaction>2016/04/18 22:33:29.000.553,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\base64.js</Transaction>
+    <Transaction>2016/04/18 22:33:29.000.558,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\ServerFunctionExecutor.js</Transaction>
     <Transaction>2016/04/18 22:33:29.000.590,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\ServerFunctionExecutor-min.js</Transaction>
+    <Transaction>2016/04/18 22:33:29.000.595,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\CallbackFramework-min.js</Transaction>
+    <Transaction>2016/04/18 22:33:29.000.553,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\base64.js</Transaction>
     <Transaction>2016/04/18 22:33:29.000.563,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\js\json2.js</Transaction>
-    <Transaction>2016/04/18 23:05:44.000.536,D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\DashBoard.pas=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\FormUnit1.pas</Transaction>
     <Transaction>2016/04/18 23:05:44.000.536,D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\DashBoard.dfm=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\FormUnit1.dfm</Transaction>
+    <Transaction>2016/04/18 23:05:44.000.536,D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\DashBoard.pas=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\FormUnit1.pas</Transaction>
     <Transaction>2016/04/18 23:12:55.000.701,=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\Unit1.pas</Transaction>
     <Transaction>2016/04/18 23:15:47.000.488,D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\uService.pas=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\ServerMethodsUnit1.pas</Transaction>
     <Transaction>2016/04/18 23:15:58.000.413,D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\uDashBoard.pas=D:\Projetos\DevMedia\Revista\008 - Construindo serviços RESTful com DataSnap\src\src\DashBoard.pas</Transaction>
@@ -43,22 +43,22 @@
     <Transaction>2017/02/18 16:59:48.000.303,=D:\Projetos\Hackaton\src\utils\HKCripto.pas</Transaction>
     <Transaction>2017/02/18 17:16:11.000.069,=D:\Projetos\Hackaton\src\utils\uExceptions.pas</Transaction>
     <Transaction>2017/02/18 17:16:11.000.077,=D:\Projetos\Hackaton\src\utils\uUtils.pas</Transaction>
-    <Transaction>2017/02/18 17:16:58.000.858,D:\Projetos\Hackaton\src\utils\uExceptions.pas=</Transaction>
     <Transaction>2017/02/18 17:16:58.000.853,D:\Projetos\Hackaton\src\utils\uUtils.pas=</Transaction>
+    <Transaction>2017/02/18 17:16:58.000.858,D:\Projetos\Hackaton\src\utils\uExceptions.pas=</Transaction>
     <Transaction>2017/02/18 17:18:24.000.059,=D:\Projetos\Hackaton\Unit1.pas</Transaction>
     <Transaction>2017/02/18 17:18:40.000.107,D:\Projetos\Hackaton\Unit1.pas=D:\Projetos\Hackaton\src\utils\uStrUtils.pas</Transaction>
     <Transaction>2017/02/18 17:19:19.000.446,D:\Projetos\Hackaton\src\utils\uStrUtils.pas=</Transaction>
     <Transaction>2017/02/18 17:19:46.000.098,=D:\Projetos\Hackaton\src\utils\uUtils.pas</Transaction>
     <Transaction>2017/02/18 17:35:37.000.601,=D:\Projetos\Hackaton\Unit1.pas</Transaction>
-    <Transaction>2017/02/18 17:36:51.000.993,D:\Projetos\Hackaton\Unit1.dfm=D:\Projetos\Hackaton\src\db\udmConexao.dfm</Transaction>
     <Transaction>2017/02/18 17:36:51.000.993,D:\Projetos\Hackaton\Unit1.pas=D:\Projetos\Hackaton\src\db\udmConexao.pas</Transaction>
+    <Transaction>2017/02/18 17:36:51.000.993,D:\Projetos\Hackaton\Unit1.dfm=D:\Projetos\Hackaton\src\db\udmConexao.dfm</Transaction>
     <Transaction>2017/02/18 17:39:29.000.843,D:\Projetos\Hackaton\src\db\uConexao.pas=</Transaction>
     <Transaction>2017/02/18 18:34:58.000.540,=D:\Projetos\Hackaton\Unit1.pas</Transaction>
     <Transaction>2017/02/18 18:35:16.000.485,D:\Projetos\Hackaton\Unit1.pas=D:\Projetos\Hackaton\src\classes\uUsuario.pas</Transaction>
     <Transaction>2017/02/18 19:20:55.000.269,D:\Projetos\Hackaton\uVendaItem.pas=</Transaction>
     <Transaction>2017/02/18 19:20:55.000.290,D:\Projetos\Hackaton\uUtilDB.pas=</Transaction>
-    <Transaction>2017/02/18 19:20:55.000.293,D:\Projetos\Hackaton\uProduto.pas=</Transaction>
     <Transaction>2017/02/18 19:20:55.000.284,D:\Projetos\Hackaton\uVenda.pas=</Transaction>
+    <Transaction>2017/02/18 19:20:55.000.293,D:\Projetos\Hackaton\uProduto.pas=</Transaction>
     <Transaction>2017/02/18 19:21:19.000.944,=D:\Projetos\Hackaton\src\classes\uVenda.pas</Transaction>
     <Transaction>2017/02/18 19:32:18.000.912,=D:\Projetos\Hackaton\Unit1.pas</Transaction>
     <Transaction>2017/02/18 19:32:37.000.186,D:\Projetos\Hackaton\Unit1.pas=D:\Projetos\Hackaton\src\utils\uRecords.pas</Transaction>
@@ -67,5 +67,6 @@
     <Transaction>2017/02/19 04:30:11.000.902,=D:\Projetos\Hackaton\GitHub\Server\src\classes\uEstabelecimento.pas</Transaction>
     <Transaction>2017/02/19 04:34:18.000.909,=D:\Projetos\Hackaton\GitHub\Server\src\Unit1.pas</Transaction>
     <Transaction>2017/02/19 04:34:26.000.985,D:\Projetos\Hackaton\GitHub\Server\src\Unit1.pas=D:\Projetos\Hackaton\GitHub\Server\src\classes\uSegmento.pas</Transaction>
+    <Transaction>2017/02/19 08:32:48.112,D:\Projetos\Hackaton\GitHub\Server\src\uMetadados.pas=</Transaction>
   </Transactions>
 </BorlandProject>
