@@ -179,7 +179,6 @@ begin
       FSugestaoAmizade1.ID    := LQuery.FieldByName('usuario_id').AsString;
       FSugestaoAmizade1.Nome  := LQuery.FieldByName('nome').AsString;
       LQuery.Next;
-
       FSugestaoAmizade2.ID    := LQuery.FieldByName('usuario_id').AsString;
       FSugestaoAmizade2.Nome  := LQuery.FieldByName('nome').AsString;
       LQuery.Next;

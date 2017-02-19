@@ -41,8 +41,12 @@ type
     lbl1: TLabel;
     Panel1: TPanel;
     Label1: TLabel;
+    Panel3: TPanel;
+    Image2: TImage;
     Panel4: TPanel;
     Image3: TImage;
+    Panel5: TPanel;
+    Image4: TImage;
     Panel6: TPanel;
     Image5: TImage;
     Image6: TImage;
@@ -96,8 +100,6 @@ type
     procedure Image14Click(Sender: TObject);
     procedure Image7Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
-    procedure Image5Click(Sender: TObject);
-    procedure Image3Click(Sender: TObject);
   private
     FID : string;
     FPublicacoProria1 : TPublicacaoPropria;
@@ -179,7 +181,6 @@ begin
       FSugestaoAmizade1.ID    := LQuery.FieldByName('usuario_id').AsString;
       FSugestaoAmizade1.Nome  := LQuery.FieldByName('nome').AsString;
       LQuery.Next;
-
       FSugestaoAmizade2.ID    := LQuery.FieldByName('usuario_id').AsString;
       FSugestaoAmizade2.Nome  := LQuery.FieldByName('nome').AsString;
       LQuery.Next;
@@ -311,14 +312,8 @@ begin
       LQuery.ParamByName('id').AsInteger := StrToInt(FID);
       LQuery.Open();
 
-      FUltimasCompras1.EstabelecimentoId    := LQuery.FieldByName('estabelecimento_id').AsString;
-      FUltimasCompras1.Nome  := LQuery.FieldByName('nome').AsString;
-      LQuery.Next;
-      FUltimasCompras2.EstabelecimentoId    := LQuery.FieldByName('estabelecimento_id').AsString;
-      FUltimasCompras2.Nome  := LQuery.FieldByName('nome').AsString;
-      LQuery.Next;
-
-
+      if (LQuery.RecordCount <> 0) then
+        Result := LQuery;
     except
       on E: Exception do
         raise Exception.Create('ERRO AO CONSULTAR AS COMPRAS DO USUARIO');
@@ -401,18 +396,6 @@ begin
   Image6.Picture := TImage(Sender).Picture;
   RichEdit1.Text := FPublicacoProria4.Data;
   RichEdit2.Text := FPublicacoProria4.Texto;
-end;
-
-procedure TForm1.Image3Click(Sender: TObject);
-begin
-  Image6.Picture := TImage(Sender).Picture;
-  RichEdit1.Text := FUltimasCompras1.Nome;
-end;
-
-procedure TForm1.Image5Click(Sender: TObject);
-begin
-  Image6.Picture := TImage(Sender).Picture;
-  RichEdit1.Text := FUltimasCompras2.Nome;
 end;
 
 procedure TForm1.Image7Click(Sender: TObject);

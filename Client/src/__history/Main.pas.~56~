@@ -94,6 +94,10 @@ type
     procedure Image16Click(Sender: TObject);
     procedure Image17Click(Sender: TObject);
     procedure Image18Click(Sender: TObject);
+    procedure Image11Click(Sender: TObject);
+    procedure Image12Click(Sender: TObject);
+    procedure Image13Click(Sender: TObject);
+    procedure Image14Click(Sender: TObject);
   private
     FID : string;
     FPublicacoProria1 : TPublicacaoPropria;
@@ -129,21 +133,141 @@ implementation
 uses Login, udmConexao;
 
 procedure TForm1.BuscarIndicaoesAmigos;
+var
+  LQuery : TFDQuery;
 begin
   FSugestaoAmizade1 := TSugestoesAmigos.Create;
   FSugestaoAmizade2 := TSugestoesAmigos.Create;
 
-//  SugestoesAmigos
+  LQuery := TFDQuery.Create(dmConexao.fdConexao);
+  try
+    try
+      LQuery.Connection := dmConexao.fdConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT ');
+      LQuery.SQL.Add('  usuario_id, ');
+      LQuery.SQL.Add('  nome ');
+      LQuery.SQL.Add('FROM ');
+      LQuery.SQL.Add('( ');
+      LQuery.SQL.Add('  SELECT ');
+      LQuery.SQL.Add('    DISTINCT ');
+      LQuery.SQL.Add('    usuario_id, ');
+      LQuery.SQL.Add('    c.nome ');
+      LQuery.SQL.Add('  FROM ');
+      LQuery.SQL.Add('    venda v ');
+      LQuery.SQL.Add('    INNER JOIN usuario u ON (v.usuario_id = u.id) ');
+      LQuery.SQL.Add('    INNER JOIN cliente c ON (u.id = c.id) ');
+      LQuery.SQL.Add('  WHERE ');
+      LQuery.SQL.Add('    estabelecimento_id IN ( SELECT ');
+      LQuery.SQL.Add('                              estabelecimento_id ');
+      LQuery.SQL.Add('                            FROM ');
+      LQuery.SQL.Add('                              venda v ');
+      LQuery.SQL.Add('                            WHERE ');
+      LQuery.SQL.Add('                              v.usuario_id = :id1) ');
+      LQuery.SQL.Add('    AND usuario_id <> :id2 ');
+      LQuery.SQL.Add(') AUX ');
+      LQuery.SQL.Add('WHERE ');
+      LQuery.SQL.Add('  ROWNUM <= 2 ');
+      LQuery.SQL.Add('ORDER BY ');
+      LQuery.SQL.Add('  nome ');
+
+      LQuery.ParamByName('id1').AsInteger := StrToInt(FId);
+      LQuery.ParamByName('id2').AsInteger := StrToInt(FId);
+      LQuery.Open();
+
+      FSugestaoAmizade1.ID    := LQuery.FieldByName('usuario_id').AsString;
+      FSugestaoAmizade1.Nome  := LQuery.FieldByName('nome').AsString;
+      LQuery.Next;
+      FSugestaoAmizade2.ID    := LQuery.FieldByName('usuario_id').AsString;
+      FSugestaoAmizade2.Nome  := LQuery.FieldByName('nome').AsString;
+      LQuery.Next;
+
+
+    except
+      on E: Exception do
+        raise Exception.Create('ERRO AO CONSULTAR AS SUGESTÕES DOS AMIGOS DO USUARIO');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
 end;
 
 procedure TForm1.BuscarPublicacoesAmigos;
+var
+  LQuery : TFDQuery;
 begin
   FPublicacaoAmigos1 := TPublicacaoAmigos.Create;
   FPublicacaoAmigos2 := TPublicacaoAmigos.Create;
   FPublicacaoAmigos3 := TPublicacaoAmigos.Create;
   FPublicacaoAmigos4 := TPublicacaoAmigos.Create;
 
-//  PublicacoesAmigos
+  LQuery := TFDQuery.Create(dmConexao.fdConexao);
+  try
+    try
+      LQuery.Connection := dmConexao.fdConexao;
+
+      LQuery.SQL.Clear;
+      LQuery.SQL.Add('SELECT ');
+      LQuery.SQL.Add('  ua.usuario_id,');
+      LQuery.SQL.Add('  c.nome,');
+      LQuery.SQL.Add('  (SELECT');
+      LQuery.SQL.Add('      Max(up1.data)');
+      LQuery.SQL.Add('    FROM');
+      LQuery.SQL.Add('      usuario_publicacao up1');
+      LQuery.SQL.Add('    WHERE');
+      LQuery.SQL.Add('      up1.usuario_id = ua.amigo_id) AS dat_publicacao,');
+      LQuery.SQL.Add('  (SELECT');
+      LQuery.SQL.Add('     up.texto');
+      LQuery.SQL.Add('   FROM');
+      LQuery.SQL.Add('     usuario_publicacao up');
+      LQuery.SQL.Add('   WHERE');
+      LQuery.SQL.Add('      up.usuario_id = ua.amigo_id');
+      LQuery.SQL.Add('      AND up.data = (SELECT Max(up1.data) FROM usuario_publicacao up1 WHERE up1.usuario_id = ua.amigo_id)');
+      LQuery.SQL.Add('  ) AS publicacao');
+      LQuery.SQL.Add('FROM');
+      LQuery.SQL.Add('  usuario_amigo ua');
+      LQuery.SQL.Add('  INNER JOIN usuario u ON (ua.amigo_id = u.id)');
+      LQuery.SQL.Add('  INNER JOIN cliente c ON (c.id = u.id)');
+      LQuery.SQL.Add('WHERE');
+      LQuery.SQL.Add('  ua.usuario_id = :id');
+      LQuery.SQL.Add('ORDER BY');
+      LQuery.SQL.Add('  c.nome');
+
+      LQuery.ParamByName('id').AsInteger := StrToInt(FId);
+      LQuery.Open();
+
+
+      FPublicacaoAmigos1.ID    := LQuery.FieldByName('usuario_id').AsString;
+      FPublicacaoAmigos1.Nome  := LQuery.FieldByName('nome').AsString;
+      FPublicacaoAmigos1.data  := LQuery.FieldByName('dat_publicacao').AsString;
+      FPublicacaoAmigos1.texto := LQuery.FieldByName('publicacao').AsString;
+      LQuery.Next;
+
+      FPublicacaoAmigos2.ID    := LQuery.FieldByName('usuario_id').AsString;
+      FPublicacaoAmigos2.Nome  := LQuery.FieldByName('nome').AsString;
+      FPublicacaoAmigos2.data  := LQuery.FieldByName('dat_publicacao').AsString;
+      FPublicacaoAmigos2.texto := LQuery.FieldByName('publicacao').AsString;
+      LQuery.Next;
+
+      FPublicacaoAmigos3.ID    := LQuery.FieldByName('usuario_id').AsString;
+      FPublicacaoAmigos3.Nome  := LQuery.FieldByName('nome').AsString;
+      FPublicacaoAmigos3.data  := LQuery.FieldByName('dat_publicacao').AsString;
+      FPublicacaoAmigos3.texto := LQuery.FieldByName('publicacao').AsString;
+      LQuery.Next;
+
+      FPublicacaoAmigos4.ID    := LQuery.FieldByName('usuario_id').AsString;
+      FPublicacaoAmigos4.Nome  := LQuery.FieldByName('nome').AsString;
+      FPublicacaoAmigos4.data  := LQuery.FieldByName('dat_publicacao').AsString;
+      FPublicacaoAmigos4.texto := LQuery.FieldByName('publicacao').AsString;
+      LQuery.Next;
+    except
+      on E: Exception do
+        raise Exception.Create('ERRO AO CONSULTAR AS PUBLICAÇÕES DOS AMIGOS DO USUARIO');
+    end;
+  finally
+    FreeAndNil(LQuery);
+  end;
 end;
 
 procedure TForm1.BuscarPublicacoesProprias;
@@ -182,6 +306,35 @@ begin
   BuscarPublicacoesAmigos;
   BuscarIndicaoesAmigos;
   BuscarUltimasCompras;
+end;
+
+procedure TForm1.Image11Click(Sender: TObject);
+begin
+  Image6.Picture := TImage(Sender).Picture;
+  RichEdit1.Text := FPublicacaoAmigos1.Nome + sLineBreak + FPublicacaoAmigos1.data;
+  RichEdit2.Text := FPublicacaoAmigos1.Texto;
+end;
+
+procedure TForm1.Image12Click(Sender: TObject);
+begin
+  Image6.Picture := TImage(Sender).Picture;
+  RichEdit1.Text := FPublicacaoAmigos2.Nome + sLineBreak + FPublicacaoAmigos2.data;
+  RichEdit2.Text := FPublicacaoAmigos2.Texto;
+end;
+
+procedure TForm1.Image13Click(Sender: TObject);
+begin
+  Image6.Picture := TImage(Sender).Picture;
+  RichEdit1.Text := FPublicacaoAmigos3.Nome + sLineBreak + FPublicacaoAmigos3.data;
+  RichEdit2.Text := FPublicacaoAmigos3.Texto;
+end;
+
+procedure TForm1.Image14Click(Sender: TObject);
+begin
+  Image6.Picture := TImage(Sender).Picture;
+  RichEdit1.Text := FPublicacaoAmigos4.Nome + sLineBreak + FPublicacaoAmigos4.data;
+  RichEdit2.Text := FPublicacaoAmigos4.Texto;
+
 end;
 
 procedure TForm1.Image15Click(Sender: TObject);
@@ -234,8 +387,6 @@ begin
 
       LQuery.ParamByName('id').AsInteger := AId;
       LQuery.Open();
-
-      LQuery.First;
 
       FPublicacoProria1.Data  := LQuery.FieldByName('DATA').AsString;
       FPublicacoProria1.Texto := LQuery.FieldByName('TEXTO').AsString;
